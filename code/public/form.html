@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Lost and Found Item</title>
+    <script type="module">
+        // Firebase imports using Firebase v9 modular syntax
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
+            authDomain: "test-a03f0.firebaseapp.com",
+            databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
+            projectId: "test-a03f0",
+            storageBucket: "test-a03f0.appspot.com",
+            messagingSenderId: "781989983807",
+            appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
+            measurementId: "G-LX0R71CBRP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+        const database = getDatabase(app);
+
+        // Check if the user is logged in and populate the owner field
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // If the user is logged in, populate the owner field with the user's email
+                document.getElementById('ownerName').value = user.email;
+            } else {
+                // Redirect to login page if not logged in
+                window.location.href = "login.html";
+            }
+        });
+
+        // Form submission event
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('itemForm').addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent form from submitting the traditional way
+
+                const itemName = document.getElementById('itemName').value;
+                const itemDescription = document.getElementById('itemDescription').value;
+                const ownerName = document.getElementById('ownerName').value;
+
+                // Add data to Firebase Realtime Database
+                const newItemRef = push(ref(database, 'lostAndFound'));
+                set(newItemRef, {
+                    itemName: itemName,
+                    itemDescription: itemDescription,
+                    ownerName: ownerName,
+                    timestamp: new Date().toISOString()
+                }).then(() => {
+                    document.getElementById('dataStatus').textContent = "Item successfully added!";
+                }).catch((error) => {
+                    document.getElementById('dataStatus').textContent = "Error adding item: " + error.message;
+                });
+
+                // Clear the form fields
+                document.getElementById('itemForm').reset();
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Enter Lost and Found Item</h1>
+
+    <form id="itemForm">
+        <label for="itemName">Item Name:</label>
+        <input type="text" id="itemName" required><br>
+        <label for="itemDescription">Description:</label>
+        <input type="text" id="itemDescription" required><br>
+        <!-- Owner Name field is hidden and populated automatically -->
+        <input type="hidden" id="ownerName">
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="dataStatus"></div>
+
+    <!-- Links to other pages -->
+    <br>
+    <a href="list.html">View Lost and Found Items</a><br>
+    <a href="claim.html">Claim Lost and Found Items</a><br>
+    <a href="login.html">Logout</a>
+</body>
+</html>

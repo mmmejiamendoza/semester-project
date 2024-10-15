@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Lost and Found Items</title>
+    <script type="module">
+        // Firebase imports using Firebase v9 modular syntax
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
+            authDomain: "test-a03f0.firebaseapp.com",
+            databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
+            projectId: "test-a03f0",
+            storageBucket: "test-a03f0.appspot.com",
+            messagingSenderId: "781989983807",
+            appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
+            measurementId: "G-LX0R71CBRP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Retrieve and display lost and found items
+        document.addEventListener('DOMContentLoaded', function () {
+            const lostAndFoundRef = ref(database, 'lostAndFound');
+            const tableBody = document.getElementById('itemsTableBody');
+
+            onValue(lostAndFoundRef, (snapshot) => {
+                tableBody.innerHTML = ""; // Clear the table body
+                const data = snapshot.val();
+                for (const key in data) {
+                    const item = data[key];
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.itemName}</td>
+                        <td>${item.itemDescription}</td>
+                        <td>${item.ownerName}</td>
+                        <td>${new Date(item.timestamp).toLocaleString()}</td>
+                    `;
+                    tableBody.appendChild(row);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Lost and Found Items</h1>
+
+    <!-- Table to display lost and found items -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Description</th>
+                <th>Owner Name</th>
+                <th>Date Submitted</th>
+            </tr>
+        </thead>
+        <tbody id="itemsTableBody">
+            <!-- Lost and found items will be populated here -->
+        </tbody>
+    </table>
+
+    <!-- Link to the submission page -->
+    <br><br>
+    <a href="form.html">Submit a New Lost and Found Item</a>
+</body>
+</html>
