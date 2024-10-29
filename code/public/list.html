@@ -26,7 +26,7 @@
 
         // Retrieve and display lost and found items
         document.addEventListener('DOMContentLoaded', function () {
-            const lostAndFoundRef = ref(database, 'lostAndFound');
+            const lostAndFoundRef = ref(database, 'lostAndFound'); // Unified path for both reports and claims
             const tableBody = document.getElementById('itemsTableBody');
 
             onValue(lostAndFoundRef, (snapshot) => {
@@ -36,12 +36,13 @@
                     const item = data[key];
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${item.itemName}</td>
-                        <td>${item.itemDescription}</td>
-                        <td>${item.foundBy || "Unknown"}</td>
-                        <td>${item.roomNumber || "Not specified"}</td>
-                        <td>${item.currentLocation || "Not specified"}</td>
-                        <td>${item.ownerName || "Not provided"}</td> <!-- Contact Info column showing email -->
+                        <td>${item.itemName || "Not provided"}</td>
+                        <td>${item.itemDescription || "Not provided"}</td>
+                        <td>${item.foundBy || "N/A"}</td> <!-- Displayed only if provided -->
+                        <td>${item.ownerName || "N/A"}</td> <!-- Owner or finder info -->
+                        <td>${item.roomNumber || "N/A"}</td> <!-- Displayed only if provided -->
+                        <td>${item.currentLocation || "N/A"}</td> <!-- Displayed only if provided -->
+                        <td>${item.lastKnownLocation || "N/A"}</td> <!-- Displayed only if provided -->
                         <td>${new Date(item.timestamp).toLocaleString()}</td>
                     `;
                     tableBody.appendChild(row);
@@ -59,10 +60,11 @@
             <tr>
                 <th>Item Name</th>
                 <th>Description</th>
-                <th>Found By</th>
-                <th>Room Number</th>
-                <th>Current Location</th>
-                <th>Contact Info</th> <!-- New column for Contact Info -->
+                <th>Found By</th> <!-- Applies to found items -->
+                <th>Owner Name</th> <!-- Applies to lost items -->
+                <th>Room Number</th> <!-- Applies to found items -->
+                <th>Current Location</th> <!-- Applies to found items -->
+                <th>Last Known Location</th> <!-- Applies to lost items -->
                 <th>Date Submitted</th>
             </tr>
         </thead>
@@ -73,6 +75,6 @@
 
     <!-- Link to the submission page -->
     <br><br>
-    <a href="form.html">Submit a New Lost and Found Item</a>
+    <a href="index.html">Back home</a>
 </body>
 </html>

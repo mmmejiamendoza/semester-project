@@ -46,10 +46,10 @@
                 const itemName = document.getElementById('itemName').value;
                 const itemDescription = document.getElementById('itemDescription').value;
                 const ownerName = document.getElementById('ownerName').value;
-                const lastKnownLocation = document.getElementById('lastKnownLocation').value; // New field for last known location
+                const lastKnownLocation = document.getElementById('lastKnownLocation').value;
 
-                // Add data to Firebase Realtime Database
-                const newItemRef = push(ref(database, 'lostItems'));
+                // Add data to Firebase Realtime Database (set path to 'lostAndFound')
+                const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
                     itemDescription: itemDescription,
@@ -79,11 +79,10 @@
         <input type="text" id="itemDescription" required><br>
 
         <!-- Owner Name field is hidden and populated automatically -->
-        
-        <input type="hidden" id="ownerName"><br>
+        <input type="hidden" id="ownerName">
 
         <label for="lastKnownLocation">Last Known Location:</label>
-        <input type="text" id="lastKnownLocation" required><br> <!-- Field for last known location -->
+        <input type="text" id="lastKnownLocation" required><br>
 
         <button type="submit">Report Item</button>
     </form>
@@ -92,8 +91,7 @@
 
     <!-- Links to other pages -->
     <br>
-    <a href="list.html">View Lost and Found Items</a><br>
-    <a href="claim.html">Claim Lost and Found Items</a><br>
-    <a href="login.html">Logout</a>
+    <a href="index.html">Back home</a><br>
+    
 </body>
 </html>
