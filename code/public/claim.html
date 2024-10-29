@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Claim Lost Items</title>
+    <title>Claim Lost and Found Items</title>
     <script type="module">
         // Firebase imports using Firebase v9 modular syntax
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
@@ -38,7 +38,7 @@
                     row.innerHTML = `
                         <td>${item.itemName}</td>
                         <td>${item.itemDescription}</td>
-                        <td>${item.ownerName}</td>
+                        <td>${item.foundBy || "Unknown"}</td> <!-- Updated to show 'Found By' name -->
                         <td>${new Date(item.timestamp).toLocaleString()}</td>
                         <td><button onclick="claimItem('${key}')">Claim</button></td>
                     `;
@@ -73,7 +73,7 @@
             <tr>
                 <th>Item Name</th>
                 <th>Description</th>
-                <th>Owner Name</th>
+                <th>Found By</th> <!-- Updated header -->
                 <th>Date Submitted</th>
                 <th>Action</th>
             </tr>

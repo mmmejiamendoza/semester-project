@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Lost and Found Item</title>
+    <title>Report a Lost Item</title>
     <script type="module">
-        // Firebase imports using Firebase v9 modular syntax                                          
+        // Firebase imports using Firebase v9 modular syntax
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
@@ -40,61 +40,52 @@
 
         // Form submission event
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('itemForm').addEventListener('submit', function (e) {
+            document.getElementById('lostItemForm').addEventListener('submit', function (e) {
                 e.preventDefault(); // Prevent form from submitting the traditional way
 
                 const itemName = document.getElementById('itemName').value;
                 const itemDescription = document.getElementById('itemDescription').value;
                 const ownerName = document.getElementById('ownerName').value;
-                const roomNumber = document.getElementById('roomNumber').value; // New field
-                const foundBy = document.getElementById('foundBy').value; // New field
-                const currentLocation = document.getElementById('currentLocation').value; // New field
+                const lastKnownLocation = document.getElementById('lastKnownLocation').value; // New field for last known location
 
                 // Add data to Firebase Realtime Database
-                const newItemRef = push(ref(database, 'lostAndFound'));
+                const newItemRef = push(ref(database, 'lostItems'));
                 set(newItemRef, {
                     itemName: itemName,
                     itemDescription: itemDescription,
                     ownerName: ownerName,
-                    roomNumber: roomNumber,
-                    foundBy: foundBy,
-                    currentLocation: currentLocation,
+                    lastKnownLocation: lastKnownLocation,
                     timestamp: new Date().toISOString()
                 }).then(() => {
-                    document.getElementById('dataStatus').textContent = "Item successfully added!";
+                    document.getElementById('dataStatus').textContent = "Lost item reported successfully!";
                 }).catch((error) => {
-                    document.getElementById('dataStatus').textContent = "Error adding item: " + error.message;
+                    document.getElementById('dataStatus').textContent = "Error reporting item: " + error.message;
                 });
 
                 // Clear the form fields
-                document.getElementById('itemForm').reset();
+                document.getElementById('lostItemForm').reset();
             });
         });
     </script>
 </head>
 <body>
-    <h1>Enter Found Items</h1>
+    <h1>Report a Lost Item</h1>
 
-    <form id="itemForm">
+    <form id="lostItemForm">
         <label for="itemName">Item Name:</label>
         <input type="text" id="itemName" required><br>
 
         <label for="itemDescription">Description:</label>
         <input type="text" id="itemDescription" required><br>
 
-        <label for="roomNumber">Room Number:</label>
-        <input type="text" id="roomNumber" required><br> <!-- New input for Room Number -->
-
-        <label for="foundBy">Found By:</label>
-        <input type="text" id="foundBy" required><br> <!-- New input for who found the item -->
-
-        <label for="currentLocation">Current Location:</label>
-        <input type="text" id="currentLocation" required><br> <!-- New input for Current Location -->
-
         <!-- Owner Name field is hidden and populated automatically -->
-        <input type="hidden" id="ownerName">
+        
+        <input type="hidden" id="ownerName"><br>
 
-        <button type="submit">Submit</button>
+        <label for="lastKnownLocation">Last Known Location:</label>
+        <input type="text" id="lastKnownLocation" required><br> <!-- Field for last known location -->
+
+        <button type="submit">Report Item</button>
     </form>
 
     <div id="dataStatus"></div>

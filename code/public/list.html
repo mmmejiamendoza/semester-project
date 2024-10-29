@@ -38,7 +38,10 @@
                     row.innerHTML = `
                         <td>${item.itemName}</td>
                         <td>${item.itemDescription}</td>
-                        <td>${item.ownerName}</td>
+                        <td>${item.foundBy || "Unknown"}</td>
+                        <td>${item.roomNumber || "Not specified"}</td>
+                        <td>${item.currentLocation || "Not specified"}</td>
+                        <td>${item.ownerName || "Not provided"}</td> <!-- Contact Info column showing email -->
                         <td>${new Date(item.timestamp).toLocaleString()}</td>
                     `;
                     tableBody.appendChild(row);
@@ -56,7 +59,10 @@
             <tr>
                 <th>Item Name</th>
                 <th>Description</th>
-                <th>Owner Name</th>
+                <th>Found By</th>
+                <th>Room Number</th>
+                <th>Current Location</th>
+                <th>Contact Info</th> <!-- New column for Contact Info -->
                 <th>Date Submitted</th>
             </tr>
         </thead>
