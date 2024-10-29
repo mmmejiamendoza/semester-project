@@ -26,7 +26,7 @@
             font-size: 2rem;
             color: #333;
         }
-        a {
+        a, button {
             display: block;
             margin: 10px 0;
             padding: 10px 20px;
@@ -35,26 +35,64 @@
             text-decoration: none;
             border-radius: 5px;
             font-size: 1rem;
+            border: none;
+            cursor: pointer;
         }
-        a:hover {
-            background-color: #45a049;
+        a.logout-link {
+            background-color: #d9534f;
         }
     </style>
+    <script type="module">
+        // Firebase imports at the top level
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
+            authDomain: "test-a03f0.firebaseapp.com",
+            databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
+            projectId: "test-a03f0",
+            storageBucket: "test-a03f0.appspot.com",
+            messagingSenderId: "781989983807",
+            appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
+            measurementId: "G-LX0R71CBRP"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        // Logout function setup within DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById("logoutLink").addEventListener("click", (e) => {
+                e.preventDefault(); // Prevent default link behavior
+                signOut(auth)
+                    .then(() => {
+                        console.log("User signed out successfully.");
+                        alert("Successfully logged out!");
+                        window.location.href = "login.html"; // Redirect to login page
+                    })
+                    .catch((error) => {
+                        console.error("Error logging out: ", error);
+                    });
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to Lost and Found</h1>
         <p>Navigate to the relevant sections:</p>
-        
- <!-- Link to the Form page -->
+
+        <!-- Navigation links -->
         <a href="form.html">Submit Found Item</a>
-       
- <!-- Link to the report page -->
- <a href="report.html">Submit lost Item</a>
-        <!-- Link to the List page (view items) -->
+        <a href="report.html">Submit Lost Item</a>
         <a href="list.html">View Lost and Found Items</a>
-            <!-- Link to the claim page -->
-    <a href="claim.html">Claim Lost Items</a>
+        <a href="claim.html">Claim Lost Items</a>
+
+        <!-- Logout link -->
+        <a href="#" class="logout-link" id="logoutLink">Logout</a>
     </div>
 </body>
 </html>
