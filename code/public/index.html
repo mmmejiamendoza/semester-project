@@ -5,49 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lost and Found Hub</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Resetting margin and padding */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Setting a pastel background with soft styling */
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif; /* Playful font */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background: linear-gradient(135deg, #f8bbd0, #fce4ec); /* Pink gradient */
+            color: #6b5b95; /* Soft purple for text */
         }
+
+        /* Cute, rounded container */
         .container {
             text-align: center;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            max-width: 350px;
+            border: 3px solid #f48fb1; /* Soft pink border */
         }
+
+        /* Header with playful font size */
         h1 {
-            font-size: 2rem;
-            color: #333;
+            font-size: 2.5rem;
+            color: #f48fb1; /* Soft pink */
+            margin-bottom: 15px;
         }
+
+        /* Styling for buttons and links */
         a, button {
-            display: block;
+            display: inline-block;
             margin: 10px 0;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+            padding: 12px 25px;
+            background-color: #ffccd5; /* Soft pink button background */
+            color: #6b5b95; /* Darker purple text */
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 25px; /* Rounded buttons */
             font-size: 1rem;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
+
+        /* Hover effect for buttons */
+        a:hover, button:hover {
+            background-color: #ffb3c6; /* Slightly darker pink on hover */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Special color for logout button */
         a.logout-link {
-            background-color: #d9534f;
+            background-color: #f48fb1; /* Slightly darker pink for logout */
+        }
+
+        /* Footer text for cute branding */
+        .footer {
+            font-size: 0.8rem;
+            color: #b39ddb;
+            margin-top: 15px;
         }
     </style>
+
     <script type="module">
-        // Firebase imports at the top level
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -59,19 +90,16 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
 
-        // Logout function setup within DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById("logoutLink").addEventListener("click", (e) => {
-                e.preventDefault(); // Prevent default link behavior
+                e.preventDefault();
                 signOut(auth)
                     .then(() => {
-                        console.log("User signed out successfully.");
                         alert("Successfully logged out!");
-                        window.location.href = "login.html"; // Redirect to login page
+                        window.location.href = "login.html";
                     })
                     .catch((error) => {
                         console.error("Error logging out: ", error);
@@ -82,17 +110,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Lost and Found</h1>
-        <p>Navigate to the relevant sections:</p>
+        <h1>🎀 Lost & Found 🎀</h1>
+        <p>Your one-stop hub to reunite with your belongings!</p>
 
-        <!-- Navigation links -->
-        <a href="form.html">Submit Found Item</a>
-        <a href="report.html">Submit Lost Item</a>
-        <a href="list.html">View Lost and Found Items</a>
-        <a href="claim.html">Claim Lost Items</a>
+        <!-- Navigation links with icons for cuteness -->
+        <a href="form.html">📝 Submit Found Item</a>
+        <a href="report.html">🔍 Submit Lost Item</a>
+        <a href="list.html">📋 View Lost & Found Items</a>
+        <a href="claim.html">📦 Claim Lost Items</a>
 
-        <!-- Logout link -->
-        <a href="#" class="logout-link" id="logoutLink">Logout</a>
+        <!-- Logout link with logout icon -->
+        <a href="#" class="logout-link" id="logoutLink">🚪 Logout</a>
+
+        <!-- Footer message -->
+        <div class="footer">
+            Made with 💖 by the Lost & Found Team
+        </div>
     </div>
 </body>
 </html>

@@ -4,13 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Lost and Found Item</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Background styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffe4e6, #f3e5f5); /* Soft pink and lavender gradient */
+            font-family: 'Comic Sans MS', Arial, sans-serif; /* Playful font */
+            color: #6b5b95;
+        }
+
+        /* Main container */
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 3px solid #ffb3c6; /* Soft pink border */
+        }
+
+        /* Heading style */
+        h1 {
+            font-size: 2.5rem;
+            color: #f48fb1;
+            margin-bottom: 20px;
+        }
+
+        /* Input and button styling */
+        label {
+            font-size: 1rem;
+            color: #6b5b95;
+            margin-top: 10px;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="text"], button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 15px;
+            border: 2px solid #ffccd5; /* Soft pink border */
+            font-size: 1rem;
+            color: #6b5b95;
+        }
+
+        input[type="text"] {
+            background-color: #ffe6ec;
+            outline: none;
+        }
+
+        button {
+            background-color: #f48fb1;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff8b94;
+        }
+
+        /* Data status message */
+        #dataStatus {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #ff6f7d;
+        }
+
+        /* Back home link */
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ff8b94;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
     <script type="module">
-        // Firebase imports using Firebase v9 modular syntax                                          
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -22,35 +115,29 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
 
-        // Check if the user is logged in and populate the owner field
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // If the user is logged in, populate the owner field with the user's email
                 document.getElementById('ownerName').value = user.email;
             } else {
-                // Redirect to login page if not logged in
                 window.location.href = "login.html";
             }
         });
 
-        // Form submission event
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('itemForm').addEventListener('submit', function (e) {
-                e.preventDefault(); // Prevent form from submitting the traditional way
+                e.preventDefault();
 
                 const itemName = document.getElementById('itemName').value;
                 const itemDescription = document.getElementById('itemDescription').value;
                 const ownerName = document.getElementById('ownerName').value;
-                const roomNumber = document.getElementById('roomNumber').value; // New field
-                const foundBy = document.getElementById('foundBy').value; // New field
-                const currentLocation = document.getElementById('currentLocation').value; // New field
+                const roomNumber = document.getElementById('roomNumber').value;
+                const foundBy = document.getElementById('foundBy').value;
+                const currentLocation = document.getElementById('currentLocation').value;
 
-                // Add data to Firebase Realtime Database
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
@@ -66,42 +153,39 @@
                     document.getElementById('dataStatus').textContent = "Error adding item: " + error.message;
                 });
 
-                // Clear the form fields
                 document.getElementById('itemForm').reset();
             });
         });
     </script>
 </head>
 <body>
-    <h1>Enter Found Items</h1>
+    <div class="container">
+        <h1>🌸 Enter Found Items 🌸</h1>
 
-    <form id="itemForm">
-        <label for="itemName">Item Name:</label>
-        <input type="text" id="itemName" required><br>
+        <form id="itemForm">
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" required>
 
-        <label for="itemDescription">Description:</label>
-        <input type="text" id="itemDescription" required><br>
+            <label for="itemDescription">Description:</label>
+            <input type="text" id="itemDescription" required>
 
-        <label for="roomNumber">Room Number:</label>
-        <input type="text" id="roomNumber" required><br> <!-- New input for Room Number -->
+            <label for="roomNumber">Room Number:</label>
+            <input type="text" id="roomNumber" required>
 
-        <label for="foundBy">Found By:</label>
-        <input type="text" id="foundBy" required><br> <!-- New input for who found the item -->
+            <label for="foundBy">Found By:</label>
+            <input type="text" id="foundBy" required>
 
-        <label for="currentLocation">Current Location:</label>
-        <input type="text" id="currentLocation" required><br> <!-- New input for Current Location -->
+            <label for="currentLocation">Current Location:</label>
+            <input type="text" id="currentLocation" required>
 
-        <!-- Owner Name field is hidden and populated automatically -->
-        <input type="hidden" id="ownerName">
+            <input type="hidden" id="ownerName">
 
-        <button type="submit">Submit</button>
-    </form>
+            <button type="submit">Submit</button>
+        </form>
 
-    <div id="dataStatus"></div>
+        <div id="dataStatus"></div>
 
-    <!-- Links to other pages -->
-    <br>
-    <a href="index.html">Back home</a><br>
-  
+        <a href="index.html">🏡 Back home</a>
+    </div>
 </body>
 </html>

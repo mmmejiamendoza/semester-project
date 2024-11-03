@@ -4,8 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login or Sign Up</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Background styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #ffd1dc, #ffe4e6); /* Pastel pink gradient */
+            font-family: 'Comic Sans MS', Arial, sans-serif; /* Playful font */
+            color: #6b5b95; /* Soft purple text color */
+        }
+
+        /* Container for forms */
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            text-align: center;
+            border: 3px solid #ffb3c6; /* Soft pink border */
+        }
+
+        /* Heading style */
+        h1 {
+            font-size: 2.5rem;
+            color: #f48fb1;
+            margin-bottom: 20px;
+        }
+
+        /* Form headings */
+        h2 {
+            font-size: 1.5rem;
+            color: #f48fb1;
+            margin: 20px 0 10px;
+        }
+
+        /* Label and input styling */
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 1rem;
+            color: #6b5b95;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 2px solid #ffd1dc;
+            border-radius: 20px;
+            background-color: #ffe6ec;
+            font-size: 1rem;
+            color: #6b5b95;
+        }
+
+        /* Button styling */
+        button {
+            padding: 12px 25px;
+            background-color: #ffccd5;
+            color: #6b5b95;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background-color: #ffb3c6;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Separator */
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ffccd5;
+            margin: 20px 0;
+        }
+    </style>
+
     <script type="module">
-        // Firebase imports using Firebase v9 modular syntax
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
@@ -20,11 +110,9 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
 
-        // Ensure that users need to log in every session
         setPersistence(auth, browserSessionPersistence)
             .then(() => {
                 console.log("Persistence set to session-only.");
@@ -33,70 +121,62 @@
                 console.error("Error setting persistence: ", error.message);
             });
 
-        // Sign-up functionality
-        document.getElementById('signup-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('signup-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
 
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Signed up
-                    alert("Account created successfully!");
-                    window.location.href = "form.html"; // Redirect to form page
-                })
-                .catch((error) => {
-                    alert("Error: " + error.message);
-                });
-        });
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        alert("Account created successfully!");
+                        window.location.href = "form.html";
+                    })
+                    .catch((error) => {
+                        alert("Error: " + error.message);
+                    });
+            });
 
-        // Login functionality
-        document.getElementById('login-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+            document.getElementById('login-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
 
-            signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    // Logged in
-                    alert("Login successful!");
-                    window.location.href = "index.html"; // Redirect to form page
-                })
-                .catch((error) => {
-                    alert("Error: " + error.message);
-                });
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        alert("Login successful!");
+                        window.location.href = "index.html";
+                    })
+                    .catch((error) => {
+                        alert("Error: " + error.message);
+                    });
+            });
         });
     </script>
 </head>
 <body>
-    <h1>Login or Sign Up</h1>
+    <div class="container">
+        <h1>✨ Login or Sign Up ✨</h1>
 
-    <!-- Sign Up Form -->
-    <div>
-        <h2>Sign Up</h2>
+        <!-- Sign Up Form -->
+        <h2>🌸 Sign Up</h2>
         <form id="signup-form">
             <label for="signup-email">Email:</label>
             <input type="email" id="signup-email" required>
-            <br>
             <label for="signup-password">Password:</label>
             <input type="password" id="signup-password" required>
-            <br>
             <button type="submit">Sign Up</button>
         </form>
-    </div>
 
-    <hr>
+        <hr>
 
-    <!-- Login Form -->
-    <div>
-        <h2>Login</h2>
+        <!-- Login Form -->
+        <h2>💖 Login</h2>
         <form id="login-form">
             <label for="login-email">Email:</label>
             <input type="email" id="login-email" required>
-            <br>
             <label for="login-password">Password:</label>
             <input type="password" id="login-password" required>
-            <br>
             <button type="submit">Login</button>
         </form>
     </div>
