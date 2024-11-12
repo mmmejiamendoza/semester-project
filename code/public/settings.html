@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
+    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
+</head>
+<body>
+    <!-- Dropdown menu container for icon and menu -->
+    <div class="dropdown-menu-container">
+        <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
+
+        <!-- Dropdown menu with navigation links -->
+        <div id="dropdownMenu" class="dropdown-menu">
+            <a href="index.html">Home</a>
+            <a href="form.html">Submit Found Item</a>
+            <a href="report.html">Submit Lost Item</a>
+            <a href="list.html">View Lost and Found Items</a>
+            <a href="claim.html">Claim Lost Items</a>
+            <a href="#" class="logout-link" id="logoutLink">Logout</a>
+        </div>
+    </div>
+
+    <h1>Settings</h1>
+
+    <div class="theme-option">
+        <label for="theme-select">Choose Theme:</label>
+        <select id="theme-select">
+            <option value="light-theme.css">Light Mode</option>
+            <option value="dark-theme.css">Dark Mode</option>
+            <option value="blue-theme.css">Blue Theme</option>
+        </select>
+    </div>
+
+    <script>
+        // Load theme from localStorage if available
+        const themeSelect = document.getElementById('theme-select');
+        const themeStylesheet = document.getElementById('themeStylesheet');
+
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme) {
+                themeStylesheet.href = savedTheme;
+                themeSelect.value = savedTheme;
+            }
+        }
+
+        // Save and apply theme on selection
+        themeSelect.addEventListener('change', (event) => {
+            const selectedTheme = event.target.value;
+            themeStylesheet.href = selectedTheme;
+            localStorage.setItem('selectedTheme', selectedTheme); // Save theme selection
+        });
+
+        loadSavedTheme(); // Load theme on page load
+
+        // Dropdown menu functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuIcon = document.getElementById('menuIcon');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            
+            menuIcon.addEventListener('click', () => {
+                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+            });
+
+            // Logout functionality
+            document.getElementById("logoutLink").addEventListener("click", (e) => {
+                e.preventDefault();
+                alert("Logged out successfully!");
+                window.location.href = "login.html"; // Redirect to login
+            });
+        });
+    </script>
+</body>
+</html>

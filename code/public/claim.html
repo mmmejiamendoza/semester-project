@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Lost and Found Items</title>
+    
+    <!-- Link to external base CSS -->
+    <link rel="stylesheet" href="base.css">
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
+
     <script type="module">
-        // Firebase imports using Firebase v9 modular syntax
+        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
+        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -22,7 +29,44 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
         const database = getDatabase(app);
+
+        // Load theme from localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeStylesheet = document.getElementById('themeStylesheet');
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme) {
+                themeStylesheet.href = savedTheme;
+            }
+
+            // Update theme if changed in local storage
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'selectedTheme') {
+                    themeStylesheet.href = event.newValue;
+                }
+            });
+
+            // Logout functionality
+            document.getElementById("logoutLink").addEventListener("click", (e) => {
+                e.preventDefault();
+                signOut(auth)
+                    .then(() => {
+                        alert("Successfully logged out!");
+                        window.location.href = "login.html";
+                    })
+                    .catch((error) => {
+                        console.error("Error logging out: ", error);
+                    });
+            });
+
+            // Toggle dropdown menu visibility
+            const menuIcon = document.getElementById('menuIcon');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            menuIcon.addEventListener('click', () => {
+                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+            });
+        });
 
         // Function to render the list of lost and found items with "Claim" buttons
         function renderItems() {
@@ -38,7 +82,7 @@
                     row.innerHTML = `
                         <td>${item.itemName}</td>
                         <td>${item.itemDescription}</td>
-                        <td>${item.foundBy || "Unknown"}</td> <!-- Updated to show 'Found By' name -->
+                        <td>${item.foundBy || "Unknown"}</td>
                         <td>${new Date(item.timestamp).toLocaleString()}</td>
                         <td><button onclick="claimItem('${key}')">Claim</button></td>
                     `;
@@ -65,15 +109,30 @@
     </script>
 </head>
 <body>
+    <!-- Dropdown menu container for icon and menu -->
+    <div class="dropdown-menu-container">
+        <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
+
+        <!-- Dropdown menu with navigation links -->
+        <div id="dropdownMenu" class="dropdown-menu">
+            <a href="form.html">Submit Found Item</a>
+            <a href="report.html">Submit Lost Item</a>
+            <a href="list.html">View Lost and Found Items</a>
+            <a href="claim.html">Claim Lost Items</a>
+            <a href="settings.html">Settings</a>
+            <a href="#" class="logout-link" id="logoutLink">Logout</a>
+        </div>
+    </div>
+
     <h1>Claim Lost and Found Items</h1>
 
     <!-- Table to display lost and found items -->
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Item Name</th>
                 <th>Description</th>
-                <th>Found By</th> <!-- Updated header -->
+                <th>Found By</th>
                 <th>Date Submitted</th>
                 <th>Action</th>
             </tr>
@@ -83,8 +142,7 @@
         </tbody>
     </table>
 
-    <!-- Link to the form page -->
-    <br><br>
-    <a href="index.html">Back home</a>
+    <!-- Link to go back home -->
+    <a href="index.html" class="back-link">Back home</a>
 </body>
 </html>

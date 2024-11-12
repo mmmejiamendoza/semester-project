@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report a Lost Item</title>
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
+    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
+
     <script type="module">
         // Firebase imports using Firebase v9 modular syntax
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
         // Firebase configuration
@@ -27,28 +30,65 @@
         const auth = getAuth();
         const database = getDatabase(app);
 
-        // Check if the user is logged in and populate the owner field
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // If the user is logged in, populate the owner field with the user's email
-                document.getElementById('ownerName').value = user.email;
-            } else {
-                // Redirect to login page if not logged in
-                window.location.href = "login.html";
+        // Apply theme on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeStylesheet = document.getElementById('themeStylesheet');
+            
+            // Load saved theme from localStorage
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme) {
+                themeStylesheet.href = savedTheme;
             }
+
+            // Listen for theme changes from other pages
+            window.addEventListener('storage', (event) => {
+                if (event.key === 'selectedTheme') {
+                    themeStylesheet.href = event.newValue; // Update theme instantly
+                }
+            });
+
+            // Check if the user is logged in and populate the owner field
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    document.getElementById('ownerName').value = user.email;
+                } else {
+                    window.location.href = "login.html";
+                }
+            });
+        });
+
+        // Logout functionality and dropdown toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById("logoutLink").addEventListener("click", (e) => {
+                e.preventDefault();
+                signOut(auth)
+                    .then(() => {
+                        alert("Successfully logged out!");
+                        window.location.href = "login.html";
+                    })
+                    .catch((error) => {
+                        console.error("Error logging out: ", error);
+                    });
+            });
+
+            const menuIcon = document.getElementById('menuIcon');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            menuIcon.addEventListener('click', () => {
+                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+            });
         });
 
         // Form submission event
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('lostItemForm').addEventListener('submit', function (e) {
-                e.preventDefault(); // Prevent form from submitting the traditional way
+                e.preventDefault();
 
                 const itemName = document.getElementById('itemName').value;
                 const itemDescription = document.getElementById('itemDescription').value;
                 const ownerName = document.getElementById('ownerName').value;
                 const lastKnownLocation = document.getElementById('lastKnownLocation').value;
 
-                // Add data to Firebase Realtime Database (set path to 'lostAndFound')
+                // Add data to Firebase Realtime Database
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
@@ -69,29 +109,42 @@
     </script>
 </head>
 <body>
+    <!-- Dropdown menu container for icon and menu -->
+    <div class="dropdown-menu-container">
+        <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
+
+        <!-- Dropdown menu with navigation links -->
+        <div id="dropdownMenu" class="dropdown-menu">
+            <a href="form.html">Submit Found Item</a>
+            <a href="report.html">Submit Lost Item</a>
+            <a href="list.html">View Lost and Found Items</a>
+            <a href="claim.html">Claim Lost Items</a>
+            <a href="settings.html">Settings</a>
+            <a href="#" class="logout-link" id="logoutLink">Logout</a>
+        </div>
+    </div>
+
     <h1>Report a Lost Item</h1>
 
     <form id="lostItemForm">
         <label for="itemName">Item Name:</label>
-        <input type="text" id="itemName" required><br>
+        <input type="text" id="itemName" required>
 
         <label for="itemDescription">Description:</label>
-        <input type="text" id="itemDescription" required><br>
+        <input type="text" id="itemDescription" required>
 
         <!-- Owner Name field is hidden and populated automatically -->
         <input type="hidden" id="ownerName">
 
         <label for="lastKnownLocation">Last Known Location:</label>
-        <input type="text" id="lastKnownLocation" required><br>
+        <input type="text" id="lastKnownLocation" required>
 
         <button type="submit">Report Item</button>
     </form>
 
     <div id="dataStatus"></div>
 
-    <!-- Links to other pages -->
-    <br>
-    <a href="index.html">Back home</a><br>
-    
+    <!-- Link to go back home -->
+    <a href="index.html" class="back-link">Back home</a>
 </body>
 </html>

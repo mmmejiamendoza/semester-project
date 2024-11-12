@@ -1,0 +1,38 @@
+/* Blue Theme */
+body {
+    background-color: #e0f7fa;
+    color: #01579b;
+}
+
+.container, form, table {
+    background-color: #ffffff;
+    color: #01579b;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #01579b;
+}
+
+.menu-icon, .dropdown-menu a, .button, .back-link {
+    background-color: #039be5;
+    color: white;
+}
+
+.dropdown-menu a:hover, .button:hover, .back-link:hover {
+    background-color: #0288d1;
+}
+
+.logout-link {
+    background-color: #d32f2f;
+}
+
+.logout-link:hover {
+    background-color: #b71c1c;
+}
+
+/* Table headers */
+th {
+    background-color: #039be5;
+    color: white;
+}

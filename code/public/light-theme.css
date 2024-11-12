@@ -1,0 +1,38 @@
+/* Light Theme */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container, form, table {
+    background-color: white;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.menu-icon, .dropdown-menu a, .button, .back-link {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.dropdown-menu a:hover, .button:hover, .back-link:hover {
+    background-color: #45a049;
+}
+
+.logout-link {
+    background-color: #d9534f;
+}
+
+.logout-link:hover {
+    background-color: #c9302c;
+}
+
+/* Table headers */
+th {
+    background-color: #4CAF50;
+    color: white;
+}
