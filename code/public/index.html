@@ -8,11 +8,9 @@
     <link rel="stylesheet" href="base.css"> <!-- Link to base styles -->
 
     <script type="module">
-        // Firebase imports at the top level
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -24,42 +22,35 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
 
-        // Apply theme on page load and listen for changes
         document.addEventListener('DOMContentLoaded', () => {
             const themeStylesheet = document.getElementById('themeStylesheet');
 
-            // Load saved theme from localStorage
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
 
-            // Listen for real-time theme changes
             window.addEventListener('storage', (event) => {
                 if (event.key === 'selectedTheme') {
-                    themeStylesheet.href = event.newValue; // Update theme instantly
+                    themeStylesheet.href = event.newValue;
                 }
             });
 
-            // Logout function
             document.getElementById("logoutLink").addEventListener("click", (e) => {
-                e.preventDefault(); // Prevent default link behavior
+                e.preventDefault();
                 signOut(auth)
                     .then(() => {
-                        console.log("User signed out successfully.");
                         alert("Successfully logged out!");
-                        window.location.href = "login.html"; // Redirect to login page
+                        window.location.href = "login.html";
                     })
                     .catch((error) => {
                         console.error("Error logging out: ", error);
                     });
             });
 
-            // Toggle dropdown menu visibility
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
             menuIcon.addEventListener('click', () => {
@@ -69,10 +60,7 @@
     </script>
 </head>
 <body>
-    <!-- Hamburger icon for dropdown menu -->
     <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
-
-    <!-- Dropdown menu with navigation links -->
     <div id="dropdownMenu" class="dropdown-menu">
         <a href="form.html">Submit Found Item</a>
         <a href="report.html">Submit Lost Item</a>
@@ -81,10 +69,9 @@
         <a href="settings.html">Settings</a>
         <a href="#" class="logout-link" id="logoutLink">Logout</a>
     </div>
-
     <div class="container">
         <h1>Welcome to Lost and Found</h1>
-        <p>Navigate to the relevant sections:</p>
+        
     </div>
 </body>
 </html>

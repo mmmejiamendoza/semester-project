@@ -1,0 +1,98 @@
+/* General styling */
+body {
+    background: linear-gradient(135deg, #ffe6e6, #ffccd5, #ffb3c1) !important; /* Pink gradient background */
+    color: #4a2a2a; /* Dark pink-brown text for contrast */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container styling */
+.container {
+    background-color: #ffebee; /* Light pink for containers */
+    color: #4a2a2a; /* Darker text */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    text-align: center;
+}
+
+/* Headings */
+h1, h2 {
+    color: #b33c5a; /* Medium-dark pink for headings */
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #4a2a2a; /* Dark pink-brown text */
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ffccd5; /* Light pink border */
+    text-align: center;
+    background-color: #ffe6e6; /* Soft pink for table cells */
+}
+
+th {
+    background-color: #ffb3c1; /* Slightly darker pink for table headers */
+}
+
+/* Button styling */
+button, .back-link, .logout-link {
+    background-color: #ff99aa; /* Medium pink for buttons */
+    color: #4a2a2a; /* Dark text */
+    border: 1px solid #ffccd5; /* Light pink border */
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover, .back-link:hover, .logout-link:hover {
+    background-color: #ff8098; /* Slightly darker pink on hover */
+}
+
+/* Link styling */
+a, .dropdown-menu a {
+    color: #b33c5a; /* Medium-dark pink links */
+    text-decoration: none;
+}
+
+a:hover, .dropdown-menu a:hover {
+    color: #99394e; /* Darker pink on hover */
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    background-color: #ffebee; /* Light pink dropdown background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.dropdown-menu a {
+    background-color: #ff99aa; /* Medium pink button boxes */
+    padding: 8px;
+    display: block;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.dropdown-menu a:hover {
+    background-color: #ff8098; /* Darker pink on hover */
+}
+
+/* Input fields */
+input[type="text"], input[type="email"], input[type="password"], select {
+    background-color: #ffe6e6; /* Light pink input background */
+    color: #4a2a2a; /* Dark text */
+    border: 1px solid #ffccd5; /* Light pink border */
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 10px;
+}

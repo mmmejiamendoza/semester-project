@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Lost and Found Items</title>
-    
-    <!-- Link to external base CSS -->
-    <link rel="stylesheet" href="base.css">
     <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
+    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
 
     <script type="module">
         // Firebase imports
@@ -32,20 +30,13 @@
         const auth = getAuth();
         const database = getDatabase(app);
 
-        // Load theme from localStorage
         document.addEventListener('DOMContentLoaded', () => {
+            // Load theme from localStorage if available
             const themeStylesheet = document.getElementById('themeStylesheet');
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
-
-            // Update theme if changed in local storage
-            window.addEventListener('storage', (event) => {
-                if (event.key === 'selectedTheme') {
-                    themeStylesheet.href = event.newValue;
-                }
-            });
 
             // Logout functionality
             document.getElementById("logoutLink").addEventListener("click", (e) => {
@@ -66,10 +57,8 @@
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
             });
-        });
 
-        // Function to render the list of lost and found items with "Claim" buttons
-        function renderItems() {
+            // Render items function to display lost and found items with claim option
             const lostAndFoundRef = ref(database, 'lostAndFound');
             const tableBody = document.getElementById('itemsTableBody');
 
@@ -89,31 +78,24 @@
                     tableBody.appendChild(row);
                 }
             });
-        }
+        });
 
-        // Function to claim and remove an item
+        // Claim item function to remove claimed items from the database
         window.claimItem = function (itemKey) {
             if (confirm("Are you sure you want to claim this item?")) {
                 const itemRef = ref(database, `lostAndFound/${itemKey}`);
                 remove(itemRef).then(() => {
                     alert("Item successfully claimed!");
-                    renderItems(); // Re-render the table after claiming
                 }).catch((error) => {
                     console.error("Error removing item: ", error);
                 });
             }
         };
-
-        // Call renderItems when the page loads
-        document.addEventListener('DOMContentLoaded', renderItems);
     </script>
 </head>
 <body>
-    <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
-
-        <!-- Dropdown menu with navigation links -->
         <div id="dropdownMenu" class="dropdown-menu">
             <a href="form.html">Submit Found Item</a>
             <a href="report.html">Submit Lost Item</a>
@@ -125,8 +107,6 @@
     </div>
 
     <h1>Claim Lost and Found Items</h1>
-
-    <!-- Table to display lost and found items -->
     <table>
         <thead>
             <tr>
@@ -137,12 +117,9 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody id="itemsTableBody">
-            <!-- Lost and found items will be populated here -->
-        </tbody>
+        <tbody id="itemsTableBody"></tbody>
     </table>
 
-    <!-- Link to go back home -->
     <a href="index.html" class="back-link">Back home</a>
 </body>
 </html>

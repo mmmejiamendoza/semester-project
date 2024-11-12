@@ -1,38 +1,98 @@
-/* Light Theme */
+/* General styling */
 body {
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #ffffff !important; /* White background */
+    color: #333333; /* Dark grey text */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.container, form, table {
-    background-color: white;
-    color: #333;
+/* Container styling */
+.container {
+    background-color: #f9f9f9; /* Light grey for containers */
+    color: #333333;
+    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    text-align: center;
 }
 
+/* Headings */
 h1, h2 {
-    color: #333;
+    color: #333333;
 }
 
-.menu-icon, .dropdown-menu a, .button, .back-link {
-    background-color: #4CAF50;
-    color: white;
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #333333;
 }
 
-.dropdown-menu a:hover, .button:hover, .back-link:hover {
-    background-color: #45a049;
+th, td {
+    padding: 10px;
+    border: 1px solid #dddddd; /* Light border */
+    text-align: center;
+    background-color: #ffffff; /* White for table cells */
 }
 
-.logout-link {
-    background-color: #d9534f;
-}
-
-.logout-link:hover {
-    background-color: #c9302c;
-}
-
-/* Table headers */
 th {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #f2f2f2; /* Very light grey for table headers */
+}
+
+/* Button styling */
+button, .back-link, .logout-link {
+    background-color: #e0e0e0; /* Light grey button */
+    color: #333333; /* Dark text */
+    border: 1px solid #cccccc; /* Light border */
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover, .back-link:hover, .logout-link:hover {
+    background-color: #d4d4d4; /* Slightly darker on hover */
+}
+
+/* Link styling */
+a, .dropdown-menu a {
+    color: #007acc; /* Blue links */
+    text-decoration: none;
+}
+
+a:hover, .dropdown-menu a:hover {
+    color: #005fa3; /* Darker blue on hover */
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    background-color: #f9f9f9; /* Light grey dropdown background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.dropdown-menu a {
+    background-color: #e0e0e0; /* Light grey button boxes */
+    padding: 8px;
+    display: block;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.dropdown-menu a:hover {
+    background-color: #d4d4d4; /* Slightly darker grey on hover */
+}
+
+/* Input fields */
+input[type="text"], input[type="email"], input[type="password"], select {
+    background-color: #f9f9f9; /* Light grey input background */
+    color: #333333; /* Dark text */
+    border: 1px solid #cccccc; /* Light border */
+    padding: 10px;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 10px;
 }

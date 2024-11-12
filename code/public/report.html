@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
 
     <script type="module">
-        // Firebase imports using Firebase v9 modular syntax
+        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
@@ -30,22 +30,13 @@
         const auth = getAuth();
         const database = getDatabase(app);
 
-        // Apply theme on page load
         document.addEventListener('DOMContentLoaded', () => {
+            // Load theme from localStorage if available
             const themeStylesheet = document.getElementById('themeStylesheet');
-            
-            // Load saved theme from localStorage
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
-
-            // Listen for theme changes from other pages
-            window.addEventListener('storage', (event) => {
-                if (event.key === 'selectedTheme') {
-                    themeStylesheet.href = event.newValue; // Update theme instantly
-                }
-            });
 
             // Check if the user is logged in and populate the owner field
             onAuthStateChanged(auth, (user) => {
@@ -55,10 +46,8 @@
                     window.location.href = "login.html";
                 }
             });
-        });
 
-        // Logout functionality and dropdown toggle
-        document.addEventListener('DOMContentLoaded', () => {
+            // Logout function
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -71,6 +60,7 @@
                     });
             });
 
+            // Toggle dropdown menu
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
             menuIcon.addEventListener('click', () => {
@@ -88,7 +78,6 @@
                 const ownerName = document.getElementById('ownerName').value;
                 const lastKnownLocation = document.getElementById('lastKnownLocation').value;
 
-                // Add data to Firebase Realtime Database
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
@@ -102,7 +91,6 @@
                     document.getElementById('dataStatus').textContent = "Error reporting item: " + error.message;
                 });
 
-                // Clear the form fields
                 document.getElementById('lostItemForm').reset();
             });
         });
@@ -112,8 +100,6 @@
     <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
-
-        <!-- Dropdown menu with navigation links -->
         <div id="dropdownMenu" class="dropdown-menu">
             <a href="form.html">Submit Found Item</a>
             <a href="report.html">Submit Lost Item</a>
@@ -144,7 +130,6 @@
 
     <div id="dataStatus"></div>
 
-    <!-- Link to go back home -->
     <a href="index.html" class="back-link">Back home</a>
 </body>
 </html>

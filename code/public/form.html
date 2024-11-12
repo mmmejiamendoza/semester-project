@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Lost and Found Item</title>
-
-    <!-- Link to external base CSS -->
-    <link rel="stylesheet" href="base.css">
     <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
+    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
 
     <script type="module">
-        // Firebase imports using Firebase v9 modular syntax                                          
+        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
@@ -32,22 +30,15 @@
         const auth = getAuth();
         const database = getDatabase(app);
 
-        // Load theme from localStorage
         document.addEventListener('DOMContentLoaded', () => {
+            // Load theme from localStorage if available
             const themeStylesheet = document.getElementById('themeStylesheet');
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
 
-            // Update theme if changed in local storage
-            window.addEventListener('storage', (event) => {
-                if (event.key === 'selectedTheme') {
-                    themeStylesheet.href = event.newValue;
-                }
-            });
-
-            // Logout functionality
+            // Logout function
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -60,7 +51,7 @@
                     });
             });
 
-            // Toggle dropdown menu visibility
+            // Toggle dropdown menu
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
             menuIcon.addEventListener('click', () => {
@@ -68,18 +59,16 @@
             });
         });
 
-        // Form submission event
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('itemForm').addEventListener('submit', function (e) {
-                e.preventDefault(); // Prevent form from submitting the traditional way
+                e.preventDefault();
 
                 const itemName = document.getElementById('itemName').value;
                 const itemDescription = document.getElementById('itemDescription').value;
-                const foundBy = document.getElementById('foundBy').value; // New field for who found the item
-                const roomNumber = document.getElementById('roomNumber').value; // New field
-                const currentLocation = document.getElementById('currentLocation').value; // New field
+                const foundBy = document.getElementById('foundBy').value;
+                const roomNumber = document.getElementById('roomNumber').value;
+                const currentLocation = document.getElementById('currentLocation').value;
 
-                // Add data to Firebase Realtime Database
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
@@ -94,7 +83,6 @@
                     document.getElementById('dataStatus').textContent = "Error adding item: " + error.message;
                 });
 
-                // Clear the form fields
                 document.getElementById('itemForm').reset();
             });
         });
@@ -104,8 +92,6 @@
     <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
-
-        <!-- Dropdown menu with navigation links -->
         <div id="dropdownMenu" class="dropdown-menu">
             <a href="form.html">Submit Found Item</a>
             <a href="report.html">Submit Lost Item</a>
@@ -120,27 +106,25 @@
 
     <form id="itemForm">
         <label for="itemName">Item Name:</label>
-        <input type="text" id="itemName" required><br>
+        <input type="text" id="itemName" required>
 
         <label for="itemDescription">Description:</label>
-        <input type="text" id="itemDescription" required><br>
+        <input type="text" id="itemDescription" required>
 
         <label for="roomNumber">Room Number:</label>
-        <input type="text" id="roomNumber" required><br> <!-- New input for Room Number -->
+        <input type="text" id="roomNumber" required>
 
         <label for="foundBy">Found By:</label>
-        <input type="text" id="foundBy" required><br> <!-- New input for who found the item -->
+        <input type="text" id="foundBy" required>
 
         <label for="currentLocation">Current Location:</label>
-        <input type="text" id="currentLocation" required><br> <!-- New input for Current Location -->
+        <input type="text" id="currentLocation" required>
 
         <button type="submit">Submit</button>
     </form>
 
     <div id="dataStatus"></div>
 
-    <!-- Link to go back home -->
     <a href="index.html" class="back-link">Back home</a>
-  
 </body>
 </html>

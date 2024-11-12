@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login or Sign Up</title>
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
     <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
-    
+
     <script type="module">
-        // Firebase imports using Firebase v9 modular syntax
+        // Firebase imports and initialization
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
@@ -27,7 +28,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
 
-        // Ensure that users need to log in every session
+        // Set persistence to session-only
         setPersistence(auth, browserSessionPersistence)
             .then(() => {
                 console.log("Persistence set to session-only.");
@@ -36,8 +37,15 @@
                 console.error("Error setting persistence: ", error.message);
             });
 
-        // Sign-up and login functionality
         document.addEventListener('DOMContentLoaded', () => {
+            // Theme support
+            const themeStylesheet = document.getElementById('themeStylesheet');
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme) {
+                themeStylesheet.href = savedTheme;
+            }
+
+            // Sign-up functionality
             document.getElementById('signup-form').addEventListener('submit', function (e) {
                 e.preventDefault();
                 const email = document.getElementById('signup-email').value;
@@ -53,6 +61,7 @@
                     });
             });
 
+            // Login functionality
             document.getElementById('login-form').addEventListener('submit', function (e) {
                 e.preventDefault();
                 const email = document.getElementById('login-email').value;
@@ -74,7 +83,7 @@
     <h1>Login or Sign Up</h1>
 
     <!-- Sign Up Form -->
-    <div class="form-container">
+    <div>
         <h2>Sign Up</h2>
         <form id="signup-form">
             <label for="signup-email">Email:</label>
@@ -88,7 +97,7 @@
     <hr>
 
     <!-- Login Form -->
-    <div class="form-container">
+    <div>
         <h2>Login</h2>
         <form id="login-form">
             <label for="login-email">Email:</label>
