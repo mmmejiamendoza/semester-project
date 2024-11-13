@@ -7,6 +7,48 @@
     <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
     <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
 
+    <style>
+        /* Initially hide the dropdown menu */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 200px;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+        }
+
+        /* Style for the menu when it is visible */
+        .dropdown-menu a {
+            display: block;
+            padding: 8px 10px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Additional styling */
+        #user-greeting {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+
     <script type="module">
         // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
@@ -37,6 +79,16 @@
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
+
+            // Check if the user is logged in
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // Display user email as greeting
+                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
+                } else {
+                    window.location.href = "login.html"; // Redirect to login if not logged in
+                }
+            });
 
             // Logout functionality
             document.getElementById("logoutLink").addEventListener("click", (e) => {
@@ -97,6 +149,9 @@
             <a href="#" class="logout-link" id="logoutLink">Logout</a>
         </div>
     </div>
+
+    <!-- User greeting at top right -->
+    <div id="user-greeting"></div>
 
     <h1>Lost and Found Items</h1>
     <table>

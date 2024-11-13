@@ -23,6 +23,9 @@
         </div>
     </div>
 
+    <!-- User greeting at top right -->
+    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
+
     <h1>Settings</h1>
 
     <div class="theme-option">
@@ -77,6 +80,12 @@
                 alert("Logged out successfully!");
                 window.location.href = "login.html"; // Redirect to login
             });
+
+            // Display user greeting
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
+            }
         });
     </script>
 </body>

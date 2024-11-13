@@ -44,6 +44,7 @@
                 signOut(auth)
                     .then(() => {
                         alert("Successfully logged out!");
+                        localStorage.removeItem('userEmail');  // Remove the user's email from localStorage
                         window.location.href = "login.html";
                     })
                     .catch((error) => {
@@ -56,6 +57,12 @@
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
             });
+
+            // Display user's email if they are logged in
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
+            }
         });
     </script>
 </head>
@@ -63,6 +70,9 @@
     <div class="container">
         <h1>Welcome to Lost and Found</h1>
         
+        <!-- Display user greeting -->
+        <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
+
         <!-- Moved menu below the title -->
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
         <div id="dropdownMenu" class="dropdown-menu">

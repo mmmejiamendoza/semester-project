@@ -42,6 +42,7 @@
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     document.getElementById('ownerName').value = user.email;
+                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
                 } else {
                     window.location.href = "login.html";
                 }
@@ -109,6 +110,9 @@
             <a href="#" class="logout-link" id="logoutLink">Logout</a>
         </div>
     </div>
+
+    <!-- User greeting at top right -->
+    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
 
     <h1>Report a Lost Item</h1>
 

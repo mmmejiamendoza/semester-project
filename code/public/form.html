@@ -57,6 +57,12 @@
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
             });
+
+            // Display user greeting
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
+            }
         });
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -103,6 +109,9 @@
     </div>
 
     <h1>Enter Found Items</h1>
+
+    <!-- User greeting at top right -->
+    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
 
     <form id="itemForm">
         <label for="itemName">Item Name:</label>

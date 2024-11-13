@@ -78,6 +78,12 @@
                     tableBody.appendChild(row);
                 }
             });
+
+            // Display user greeting
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
+            }
         });
 
         // Claim item function to remove claimed items from the database
@@ -94,6 +100,7 @@
     </script>
 </head>
 <body>
+    <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
         <div id="dropdownMenu" class="dropdown-menu">
@@ -105,6 +112,9 @@
             <a href="#" class="logout-link" id="logoutLink">Logout</a>
         </div>
     </div>
+
+    <!-- User greeting at top right -->
+    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
 
     <h1>Claim Lost and Found Items</h1>
     <table>
