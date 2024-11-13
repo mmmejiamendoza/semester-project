@@ -28,14 +28,13 @@ h1 {
     color: white;
     display: inline-block;
     margin-top: 20px;
-    margin-right: 20px;
 }
 
 .dropdown-menu-container {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
+    justify-content: center; /* Center align the container */
     width: 100%;
+    position: relative;
 }
 
 .dropdown-menu {
@@ -46,7 +45,10 @@ h1 {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 160px;
-    position: relative;
+    position: absolute;
+    top: 210px; /* Increased top value to push the dropdown further down */
+    left: 50%; /* Center align with the container */
+    transform: translateX(-50%); /* Adjust to center the menu */
     z-index: 1;
 }
 
