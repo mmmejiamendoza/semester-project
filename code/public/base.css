@@ -86,14 +86,14 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background-color: #e47ab3;
     color: white;
 }
 
 /* Button Styles */
 button {
     padding: 8px 12px;
-    background-color: #4CAF50;
+    background-color: #e47ab3;
     color: white;
     border: none;
     border-radius: 4px;
@@ -101,13 +101,13 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #e47ab3;
 }
 
 /* Links */
 .back-link, .dropdown-menu a {
     padding: 10px 20px;
-    background-color: #4CAF50;
+    background-color: #e47ab3;
     color: white;
     text-decoration: none;
     border-radius: 4px;
