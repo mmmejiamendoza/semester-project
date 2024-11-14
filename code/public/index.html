@@ -39,6 +39,12 @@
                 }
             });
 
+            // Display user's email if they are logged in
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
+            }
+
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -51,38 +57,112 @@
                         console.error("Error logging out: ", error);
                     });
             });
-
-            const menuIcon = document.getElementById('menuIcon');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            menuIcon.addEventListener('click', () => {
-                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
-            });
-
-            // Display user's email if they are logged in
-            const userEmail = localStorage.getItem('userEmail');
-            if (userEmail) {
-                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
-            }
         });
+
+        // Toggle dropdown visibility
+        function toggleDropdown() {
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            // Check the current display style and toggle it
+            const currentDisplay = dropdownMenu.style.display;
+            dropdownMenu.style.display = currentDisplay === 'block' ? 'none' : 'block';
+        }
     </script>
+
+    <style>
+        /* Menu container with horizontal layout */
+        .menu-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #f8f8f8;
+            padding: 10px;
+        }
+
+        .menu-container a {
+            text-decoration: none;
+            color: #333;
+            padding: 10px 20px;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .menu-container a:hover {
+            background-color: #ddd;
+            border-radius: 5px;
+        }
+
+        /* Basic page layout styles */
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Greeting button styling */
+        #user-greeting {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            margin-left: auto;  /* Push greeting to the right */
+            display: inline-block;
+        }
+
+        #user-greeting:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Dropdown menu styles */
+        #dropdownMenu {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 150px;
+            z-index: 100;
+        }
+
+        #dropdownMenu a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        #dropdownMenu a:hover {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
+    <!-- Menu container with horizontal layout -->
+    <div class="menu-container">
+        <a href="form.html">Submit Found Item</a>
+        <a href="report.html">Submit Lost Item</a>
+        <a href="list.html">View Lost and Found Items</a>
+        <a href="claim.html">Claim Lost Items</a>
+        <a href="settings.html">Settings</a>
+
+        <!-- Greeting as a button -->
+        <button id="user-greeting" onclick="toggleDropdown()">Hello, User Email</button>
+    </div>
+
     <div class="container">
         <h1>Welcome to Lost and Found</h1>
-        
-        <!-- Display user greeting -->
-        <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
+    </div>
 
-        <!-- Moved menu below the title -->
-        <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
-        <div id="dropdownMenu" class="dropdown-menu">
-            <a href="form.html">Submit Found Item</a>
-            <a href="report.html">Submit Lost Item</a>
-            <a href="list.html">View Lost and Found Items</a>
-            <a href="claim.html">Claim Lost Items</a>
-            <a href="settings.html">Settings</a>
-            <a href="#" class="logout-link" id="logoutLink">Logout</a>
-        </div>
+    <!-- Dropdown menu -->
+    <div id="dropdownMenu">
+        <a href="settings.html">Settings</a>
+        <a href="#" id="logoutLink">Logout</a>
     </div>
 </body>
 </html>
