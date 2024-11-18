@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greetings</title>
+    <link rel="stylesheet" href="base.css"> <!-- Base styling -->
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        /* Greeting Button */
+        #user-greeting {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+
+        #user-greeting:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Dropdown Menu */
+        #dropdownMenu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 50%;
+            transform: translateX(50%);
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 150px;
+            z-index: 100;
+        }
+
+        #dropdownMenu button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            text-align: left;
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        #dropdownMenu button:hover {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
+            authDomain: "test-a03f0.firebaseapp.com",
+            databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
+            projectId: "test-a03f0",
+            storageBucket: "test-a03f0.appspot.com",
+            messagingSenderId: "781989983807",
+            appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
+            measurementId: "G-LX0R71CBRP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userGreeting = document.getElementById('user-greeting');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            // Load user's email into the greeting button
+            const userEmail = localStorage.getItem('userEmail');
+            if (userEmail) {
+                userGreeting.innerText = `Hello, ${userEmail}`;
+            }
+
+            // Toggle dropdown visibility
+            userGreeting.addEventListener('click', () => {
+                dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+            });
+
+            // Logout button functionality
+            document.getElementById("logoutButton").addEventListener("click", () => {
+                signOut(auth)
+                    .then(() => {
+                        alert("Successfully logged out!");
+                        localStorage.removeItem('userEmail'); // Clear email from localStorage
+                        dropdownMenu.style.display = 'none';
+                        // Optionally: Redirect to login page
+                        window.location.href = "login.html";
+                    })
+                    .catch((error) => {
+                        console.error("Error logging out: ", error);
+                    });
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!userGreeting.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Greetings Page</h1>
+        <button id="user-greeting">Hello, User Email</button>
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div id="dropdownMenu">
+        <button id="settingsButton">Settings</button>
+        <button id="logoutButton">Logout</button>
+    </div>
+</body>
+</html>

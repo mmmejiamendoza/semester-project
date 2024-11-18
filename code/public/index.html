@@ -3,166 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lost and Found Hub</title>
-    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
-    <link rel="stylesheet" href="base.css"> <!-- Link to base styles -->
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
-            authDomain: "test-a03f0.firebaseapp.com",
-            databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
-            projectId: "test-a03f0",
-            storageBucket: "test-a03f0.appspot.com",
-            messagingSenderId: "781989983807",
-            appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
-            measurementId: "G-LX0R71CBRP"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeStylesheet = document.getElementById('themeStylesheet');
-
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme) {
-                themeStylesheet.href = savedTheme;
-            }
-
-            window.addEventListener('storage', (event) => {
-                if (event.key === 'selectedTheme') {
-                    themeStylesheet.href = event.newValue;
-                }
-            });
-
-            // Display user's email if they are logged in
-            const userEmail = localStorage.getItem('userEmail');
-            if (userEmail) {
-                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
-            }
-
-            document.getElementById("logoutLink").addEventListener("click", (e) => {
-                e.preventDefault();
-                signOut(auth)
-                    .then(() => {
-                        alert("Successfully logged out!");
-                        localStorage.removeItem('userEmail');  // Remove the user's email from localStorage
-                        window.location.href = "login.html";
-                    })
-                    .catch((error) => {
-                        console.error("Error logging out: ", error);
-                    });
-            });
-        });
-
-        // Toggle dropdown visibility
-        function toggleDropdown() {
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            // Check the current display style and toggle it
-            const currentDisplay = dropdownMenu.style.display;
-            dropdownMenu.style.display = currentDisplay === 'block' ? 'none' : 'block';
-        }
-    </script>
-
+    <title>Index Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Menu container with horizontal layout */
-        .menu-container {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            background-color: #f8f8f8;
-            padding: 10px;
-        }
-
-        .menu-container a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px 20px;
-            margin-right: 15px;
-            font-weight: bold;
-        }
-
-        .menu-container a:hover {
-            background-color: #ddd;
-            border-radius: 5px;
-        }
-
-        /* Basic page layout styles */
-        .container {
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        /* Greeting button styling */
-        #user-greeting {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer;
-            padding: 8px 15px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            margin-left: auto;  /* Push greeting to the right */
-            display: inline-block;
-        }
-
-        #user-greeting:hover {
-            background-color: #e0e0e0;
-        }
-
-        /* Dropdown menu styles */
-        #dropdownMenu {
+        .dropdown-menu {
             display: none;
             position: absolute;
-            top: 50px;
-            right: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
+            right: 0;
+            background-color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            width: 150px;
-            z-index: 100;
         }
 
-        #dropdownMenu a {
+        .dropdown-menu.show {
             display: block;
-            padding: 10px;
-            color: #333;
-            text-decoration: none;
-            font-size: 1rem;
         }
 
-        #dropdownMenu a:hover {
-            background-color: #f0f0f0;
-            border-radius: 5px;
+        .user-dropdown {
+            position: relative;
         }
     </style>
 </head>
 <body>
-    <!-- Menu container with horizontal layout -->
-    <div class="menu-container">
-        <a href="form.html">Submit Found Item</a>
-        <a href="report.html">Submit Lost Item</a>
-        <a href="list.html">View Lost and Found Items</a>
-        <a href="claim.html">Claim Lost Items</a>
-        <a href="settings.html">Settings</a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Lost and Found</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Submit Found Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Submit Lost Item</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">View Lost and Found Items</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Claim Lost Items</a>
+                    </li>
+                </ul>
+                <div class="user-dropdown">
+                    <button id="userButton" class="btn btn-light">
+                        Hello, Guest
+                    </button>
+                    <ul id="userDropdown" class="dropdown-menu">
+                        <li><a class="dropdown-item" href="settings.html">Settings</a></li>
+                        <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-        <!-- Greeting as a button -->
-        <button id="user-greeting" onclick="toggleDropdown()">Hello, User Email</button>
+    <div class="container mt-5">
+        <h1 class="text-center">Welcome to Lost and Found</h1>
     </div>
 
-    <div class="container">
-        <h1>Welcome to Lost and Found</h1>
-    </div>
+    <script>
+        // Toggle dropdown visibility
+        function toggleDropdown() {
+            const dropdown = document.getElementById("userDropdown");
+            dropdown.classList.toggle("show");
+        }
 
-    <!-- Dropdown menu -->
-    <div id="dropdownMenu">
-        <a href="settings.html">Settings</a>
-        <a href="#" id="logoutLink">Logout</a>
-    </div>
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('#userButton')) {
+                const dropdown = document.getElementById("userDropdown");
+                if (dropdown && dropdown.classList.contains("show")) {
+                    dropdown.classList.remove("show");
+                }
+            }
+        };
+
+        // Display the user's email in the greeting
+        document.addEventListener('DOMContentLoaded', () => {
+            const userEmail = localStorage.getItem('userEmail');
+            const userButton = document.getElementById('userButton');
+
+            if (userEmail) {
+                userButton.textContent = `Hello, ${userEmail}`;
+            }
+
+            // Add click event to toggle the dropdown
+            userButton.addEventListener('click', toggleDropdown);
+        });
+
+        // Logout functionality
+        document.getElementById('logoutButton').addEventListener('click', () => {
+            // Clear user email from localStorage
+            localStorage.removeItem('userEmail');
+            alert('You have been logged out.');
+            // Redirect to login page
+            window.location.href = "login.html";
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
