@@ -8,12 +8,10 @@
     <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
 
     <script type="module">
-        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -25,20 +23,26 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Load theme from localStorage if available
             const themeStylesheet = document.getElementById('themeStylesheet');
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
 
-            // Logout functionality
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    const userEmail = user.email;
+                    document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
+                } else {
+                    window.location.href = "login.html";
+                }
+            });
+
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -51,19 +55,31 @@
                     });
             });
 
-            // Toggle dropdown menu visibility
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
+            const contentContainer = document.getElementById('content-container');
+
             menuIcon.addEventListener('click', () => {
-                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+                dropdownMenu.classList.toggle('show');
+                if (dropdownMenu.classList.contains('show')) {
+                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight}px`;
+                } else {
+                    contentContainer.style.marginTop = '0';
+                }
             });
 
-            // Render items function to display lost and found items with claim option
+            document.addEventListener('click', (e) => {
+                if (!menuIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                    contentContainer.style.marginTop = '0';
+                }
+            });
+
             const lostAndFoundRef = ref(database, 'lostAndFound');
             const tableBody = document.getElementById('itemsTableBody');
 
             onValue(lostAndFoundRef, (snapshot) => {
-                tableBody.innerHTML = ""; // Clear the table body
+                tableBody.innerHTML = "";
                 const data = snapshot.val();
                 for (const key in data) {
                     const item = data[key];
@@ -78,15 +94,8 @@
                     tableBody.appendChild(row);
                 }
             });
-
-            // Display user greeting
-            const userEmail = localStorage.getItem('userEmail');
-            if (userEmail) {
-                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
-            }
         });
 
-        // Claim item function to remove claimed items from the database
         window.claimItem = function (itemKey) {
             if (confirm("Are you sure you want to claim this item?")) {
                 const itemRef = ref(database, `lostAndFound/${itemKey}`);
@@ -98,9 +107,47 @@
             }
         };
     </script>
+
+    <style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            color: black;
+        }
+
+        #content-container {
+            transition: margin-top 0.3s ease;
+        }
+    </style>
 </head>
 <body>
-    <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
         <div id="dropdownMenu" class="dropdown-menu">
@@ -113,23 +160,23 @@
         </div>
     </div>
 
-    <!-- User greeting at top right -->
     <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
 
-    <h1>Claim Lost and Found Items</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Item Name</th>
-                <th>Description</th>
-                <th>Found By</th>
-                <th>Date Submitted</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="itemsTableBody"></tbody>
-    </table>
-
-    <a href="index.html" class="back-link">Back home</a>
+    <div id="content-container">
+        <h1>Claim Lost and Found Items</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Found By</th>
+                    <th>Date Submitted</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="itemsTableBody"></tbody>
+        </table>
+        <a href="index.html" class="back-link">Back home</a>
+    </div>
 </body>
 </html>

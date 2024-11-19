@@ -4,48 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index Page</title>
+    <link id="themeStylesheet" rel="stylesheet" href="dark-theme.css"> <!-- Default theme -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .dropdown-menu.show {
-            display: block;
-        }
-
-        .user-dropdown {
-            position: relative;
-        }
-    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lost and Found</a>
-            <div class="collapse navbar-collapse">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Submit Found Item</a>
+                        <a class="nav-link" href="form.html">Submit Found Item</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Submit Lost Item</a>
+                        <a class="nav-link" href="report.html">Submit Lost Item</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">View Lost and Found Items</a>
+                        <a class="nav-link" href="list.html">View Lost and Found Items</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Claim Lost Items</a>
+                        <a class="nav-link" href="claim.html">Claim Lost Items</a>
                     </li>
                 </ul>
                 <div class="user-dropdown">
-                    <button id="userButton" class="btn btn-light">
-                        Hello, Guest
-                    </button>
+                    <button id="userButton" class="btn btn-light">Hello, Guest</button>
                     <ul id="userDropdown" class="dropdown-menu">
                         <li><a class="dropdown-item" href="settings.html">Settings</a></li>
                         <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
@@ -55,6 +41,7 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="container mt-5">
         <h1 class="text-center">Welcome to Lost and Found</h1>
     </div>
@@ -85,20 +72,16 @@
                 userButton.textContent = `Hello, ${userEmail}`;
             }
 
-            // Add click event to toggle the dropdown
             userButton.addEventListener('click', toggleDropdown);
         });
 
         // Logout functionality
         document.getElementById('logoutButton').addEventListener('click', () => {
-            // Clear user email from localStorage
             localStorage.removeItem('userEmail');
             alert('You have been logged out.');
-            // Redirect to login page
             window.location.href = "login.html";
         });
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

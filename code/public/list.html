@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
 
     <style>
-        /* Initially hide the dropdown menu */
         .dropdown-menu {
             display: none;
             position: absolute;
@@ -18,6 +17,7 @@
             border: 1px solid #ccc;
             padding: 10px;
             width: 200px;
+            z-index: 1000;
         }
 
         .menu-icon {
@@ -26,7 +26,6 @@
             padding: 10px;
         }
 
-        /* Style for the menu when it is visible */
         .dropdown-menu a {
             display: block;
             padding: 8px 10px;
@@ -38,7 +37,6 @@
             background-color: #f0f0f0;
         }
 
-        /* Additional styling */
         #user-greeting {
             position: absolute;
             top: 20px;
@@ -50,12 +48,10 @@
     </style>
 
     <script type="module">
-        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -67,30 +63,26 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Load theme from localStorage if available
             const themeStylesheet = document.getElementById('themeStylesheet');
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
 
-            // Check if the user is logged in
+            // Check user authentication and display email
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    // Display user email as greeting
-                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
+                    document.getElementById('user-greeting').textContent = `Hello, ${user.email}`;
                 } else {
-                    window.location.href = "login.html"; // Redirect to login if not logged in
+                    window.location.href = "login.html";
                 }
             });
 
-            // Logout functionality
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -99,23 +91,22 @@
                         window.location.href = "login.html";
                     })
                     .catch((error) => {
-                        console.error("Error logging out: ", error);
+                        console.error("Error logging out:", error);
                     });
             });
 
-            // Toggle dropdown menu visibility
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
             menuIcon.addEventListener('click', () => {
-                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
+                dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
             });
 
-            // Retrieve and display lost and found items
+            // Fetch lost and found items
             const lostAndFoundRef = ref(database, 'lostAndFound');
             const tableBody = document.getElementById('itemsTableBody');
 
             onValue(lostAndFoundRef, (snapshot) => {
-                tableBody.innerHTML = ""; // Clear the table body
+                tableBody.innerHTML = "";
                 const data = snapshot.val();
                 for (const key in data) {
                     const item = data[key];
@@ -137,7 +128,6 @@
     </script>
 </head>
 <body>
-    <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
         <div id="dropdownMenu" class="dropdown-menu">
@@ -146,11 +136,10 @@
             <a href="list.html">View Lost and Found Items</a>
             <a href="claim.html">Claim Lost Items</a>
             <a href="settings.html">Settings</a>
-            <a href="#" class="logout-link" id="logoutLink">Logout</a>
+            <a href="#" id="logoutLink">Logout</a>
         </div>
     </div>
 
-    <!-- User greeting at top right -->
     <div id="user-greeting"></div>
 
     <h1>Lost and Found Items</h1>
