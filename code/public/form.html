@@ -36,7 +36,6 @@
                 themeStylesheet.href = savedTheme;
             }
 
-            // Menu button functionality
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const contentContainer = document.getElementById('content-container');
@@ -44,7 +43,7 @@
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.classList.toggle('show');
                 if (dropdownMenu.classList.contains('show')) {
-                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 10}px`; // Adjust margin
+                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 10}px`;
                 } else {
                     contentContainer.style.marginTop = '0';
                 }
@@ -57,7 +56,6 @@
                 }
             });
 
-            // Authentication state check
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     document.getElementById('foundBy').value = user.email;
@@ -67,7 +65,6 @@
                 }
             });
 
-            // Logout functionality
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -80,7 +77,6 @@
                     });
             });
 
-            // Form submission functionality
             document.getElementById('foundItemForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
@@ -95,13 +91,10 @@
 
                 const submitButton = document.getElementById("submitButton");
 
-                // Disable the button while processing
                 submitButton.disabled = true;
 
-                // Check if there's an image file and handle accordingly
                 if (imageFile) {
                     console.log("Uploading image...");
-                    // Upload image to Firebase Storage
                     const imageRef = storageRef(storage, `found-items/${Date.now()}_${imageFile.name}`);
                     uploadBytes(imageRef, imageFile).then((snapshot) => {
                         console.log("Image uploaded successfully", snapshot);
@@ -110,19 +103,17 @@
                             saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl, submitButton);
                         }).catch((error) => {
                             console.error("Error getting image URL:", error);
-                            submitButton.disabled = false; // Re-enable button on error
+                            submitButton.disabled = false;
                         });
                     }).catch((error) => {
                         console.error("Error uploading image:", error);
-                        submitButton.disabled = false; // Re-enable button on error
+                        submitButton.disabled = false;
                     });
                 } else {
-                    // If no image is uploaded, just submit the form with empty imageUrl
                     saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, '', submitButton);
                 }
             });
 
-            // Function to save item data to the Firebase database
             function saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl, submitButton) {
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
@@ -135,11 +126,11 @@
                     timestamp: new Date().toISOString()
                 }).then(() => {
                     document.getElementById('dataStatus').textContent = "Found item submitted successfully!";
-                    document.getElementById('foundItemForm').reset(); // Reset the form after submission
-                    submitButton.disabled = false; // Re-enable submit button
+                    document.getElementById('foundItemForm').reset();
+                    submitButton.disabled = false;
                 }).catch((error) => {
                     document.getElementById('dataStatus').textContent = "Error submitting item: " + error.message;
-                    submitButton.disabled = false; // Re-enable submit button on error
+                    submitButton.disabled = false;
                 });
             }
         });
@@ -149,9 +140,9 @@
         .dropdown-menu {
             display: none;
             position: absolute;
-            top: 70px; /* Adjusts to prevent overlap with the button */
-            left: 50%; /* Centers the dropdown */
-            transform: translateX(-50%); /* Centers the dropdown */
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 200px;
             background-color: #fff;
             border: 1px solid #ddd;
@@ -222,6 +213,7 @@
             <input type="file" id="imageFile" accept="image/*">
 
             <button type="submit" id="submitButton">Submit Found Item</button>
+            <button onclick="window.location.href='index.html'" style="margin-top: 10px;">Go Back</button>
         </form>
 
         <p id="dataStatus"></p>

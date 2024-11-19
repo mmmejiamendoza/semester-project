@@ -12,6 +12,10 @@
         #content-container {
             transition: margin-top 0.3s ease;
         }
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+        }
     </style>
 
     <script type="module">
@@ -146,7 +150,10 @@
             <label for="lastKnownLocation">Last Known Location:</label>
             <input type="text" id="lastKnownLocation" class="form-control mb-3" required>
 
-            <button type="submit" class="btn btn-primary">Report Item</button>
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">Report Item</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Go Back</button>
+            </div>
         </form>
         <p id="dataStatus" class="mt-3"></p>
     </div>
