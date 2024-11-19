@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Lost and Found Item</title>
-    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
-    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
+    <title>Submit a Found Item</title>
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css">
+    <link rel="stylesheet" href="base.css">
 
     <script type="module">
-        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -25,20 +23,26 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Load theme from localStorage if available
             const themeStylesheet = document.getElementById('themeStylesheet');
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
 
-            // Logout function
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    document.getElementById('foundBy').value = user.email;
+                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
+                } else {
+                    window.location.href = "login.html";
+                }
+            });
+
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -50,23 +54,10 @@
                         console.error("Error logging out: ", error);
                     });
             });
-
-            // Toggle dropdown menu
-            const menuIcon = document.getElementById('menuIcon');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            menuIcon.addEventListener('click', () => {
-                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
-            });
-
-            // Display user greeting
-            const userEmail = localStorage.getItem('userEmail');
-            if (userEmail) {
-                document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
-            }
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('itemForm').addEventListener('submit', function (e) {
+            document.getElementById('foundItemForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
                 const itemName = document.getElementById('itemName').value;
@@ -84,18 +75,17 @@
                     currentLocation: currentLocation,
                     timestamp: new Date().toISOString()
                 }).then(() => {
-                    document.getElementById('dataStatus').textContent = "Item successfully added!";
+                    document.getElementById('dataStatus').textContent = "Found item submitted successfully!";
                 }).catch((error) => {
-                    document.getElementById('dataStatus').textContent = "Error adding item: " + error.message;
+                    document.getElementById('dataStatus').textContent = "Error submitting item: " + error.message;
                 });
 
-                document.getElementById('itemForm').reset();
+                document.getElementById('foundItemForm').reset();
             });
         });
     </script>
 </head>
 <body>
-    <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
         <div id="dropdownMenu" class="dropdown-menu">
@@ -104,36 +94,32 @@
             <a href="list.html">View Lost and Found Items</a>
             <a href="claim.html">Claim Lost Items</a>
             <a href="settings.html">Settings</a>
-            <a href="#" class="logout-link" id="logoutLink">Logout</a>
+            <a href="#" id="logoutLink">Logout</a>
         </div>
     </div>
 
-    <h1>Enter Found Items</h1>
+    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px;"></div>
+    
+    <h1>Submit a Found Item</h1>
 
-    <!-- User greeting at top right -->
-    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
-
-    <form id="itemForm">
+    <form id="foundItemForm">
         <label for="itemName">Item Name:</label>
         <input type="text" id="itemName" required>
 
         <label for="itemDescription">Description:</label>
         <input type="text" id="itemDescription" required>
 
-        <label for="roomNumber">Room Number:</label>
-        <input type="text" id="roomNumber" required>
+        <input type="hidden" id="foundBy">
 
-        <label for="foundBy">Found By:</label>
-        <input type="text" id="foundBy" required>
+        <label for="roomNumber">Room Number:</label>
+        <input type="text" id="roomNumber">
 
         <label for="currentLocation">Current Location:</label>
-        <input type="text" id="currentLocation" required>
+        <input type="text" id="currentLocation">
 
-        <button type="submit">Submit</button>
+        <button type="submit">Submit Found Item</button>
     </form>
 
-    <div id="dataStatus"></div>
-
-    <a href="index.html" class="back-link">Back home</a>
+    <p id="dataStatus"></p>
 </body>
 </html>

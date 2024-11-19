@@ -4,55 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Lost and Found Items</title>
-    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
-    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
-
-    <style>
-        /* Initially hide the dropdown menu */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 40px;
-            left: 0;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: 200px;
-        }
-
-        .menu-icon {
-            cursor: pointer;
-            font-size: 24px;
-            padding: 10px;
-        }
-
-        /* Style for the menu when it is visible */
-        .dropdown-menu a {
-            display: block;
-            padding: 8px 10px;
-            text-decoration: none;
-            color: black;
-        }
-
-        .dropdown-menu a:hover {
-            background-color: #f0f0f0;
-        }
-
-        /* Additional styling */
-        #user-greeting {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1rem;
-            font-weight: bold;
-            color: #333;
-        }
-    </style>
-
+    <link rel="stylesheet" href="base.css">
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css">
     <script type="module">
-        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
         // Firebase configuration
@@ -69,92 +24,54 @@
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
         const database = getDatabase(app);
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Load theme from localStorage if available
-            const themeStylesheet = document.getElementById('themeStylesheet');
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme) {
-                themeStylesheet.href = savedTheme;
-            }
+            const table = document.getElementById('itemsTable');
 
-            // Check if the user is logged in
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    // Display user email as greeting
-                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
-                } else {
-                    window.location.href = "login.html"; // Redirect to login if not logged in
-                }
-            });
-
-            // Logout functionality
-            document.getElementById("logoutLink").addEventListener("click", (e) => {
-                e.preventDefault();
-                signOut(auth)
-                    .then(() => {
-                        alert("Successfully logged out!");
-                        window.location.href = "login.html";
-                    })
-                    .catch((error) => {
-                        console.error("Error logging out: ", error);
-                    });
-            });
-
-            // Toggle dropdown menu visibility
-            const menuIcon = document.getElementById('menuIcon');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            menuIcon.addEventListener('click', () => {
-                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
-            });
-
-            // Retrieve and display lost and found items
-            const lostAndFoundRef = ref(database, 'lostAndFound');
-            const tableBody = document.getElementById('itemsTableBody');
-
-            onValue(lostAndFoundRef, (snapshot) => {
-                tableBody.innerHTML = ""; // Clear the table body
+            onValue(ref(database, 'lostAndFound'), (snapshot) => {
                 const data = snapshot.val();
-                for (const key in data) {
-                    const item = data[key];
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${item.itemName || "Not provided"}</td>
-                        <td>${item.itemDescription || "Not provided"}</td>
-                        <td>${item.foundBy || "N/A"}</td>
-                        <td>${item.ownerName || "N/A"}</td>
-                        <td>${item.roomNumber || "N/A"}</td>
-                        <td>${item.currentLocation || "N/A"}</td>
-                        <td>${item.lastKnownLocation || "N/A"}</td>
-                        <td>${new Date(item.timestamp).toLocaleString()}</td>
-                    `;
-                    tableBody.appendChild(row);
+                table.innerHTML = ''; // Clear previous rows
+
+                // Check if data exists
+                if (data) {
+                    Object.keys(data).forEach((key) => {
+                        const item = data[key];
+                        const row = table.insertRow();
+                        
+                        // Insert data, ensuring missing fields are handled
+                        row.innerHTML = `
+                            <td>${item.itemName || "Not provided"}</td>
+                            <td>${item.itemDescription || "Not provided"}</td>
+                            <td>${item.foundBy || "N/A"}</td>
+                            <td>${item.ownerName || "N/A"}</td>
+                            <td>${item.roomNumber || "N/A"}</td>
+                            <td>${item.currentLocation || "N/A"}</td>
+                            <td>${item.lastKnownLocation || "N/A"}</td>
+                            <td>${new Date(item.timestamp).toLocaleString()}</td>
+                        `;
+                    });
+                } else {
+                    table.innerHTML = '<tr><td colspan="8">No items found.</td></tr>';
                 }
             });
         });
     </script>
 </head>
 <body>
-    <!-- Dropdown menu container for icon and menu -->
-    <div class="dropdown-menu-container">
-        <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
-        <div id="dropdownMenu" class="dropdown-menu">
-            <a href="form.html">Submit Found Item</a>
-            <a href="report.html">Submit Lost Item</a>
-            <a href="list.html">View Lost and Found Items</a>
-            <a href="claim.html">Claim Lost Items</a>
-            <a href="settings.html">Settings</a>
-            <a href="#" class="logout-link" id="logoutLink">Logout</a>
-        </div>
+    <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
+    <div id="dropdownMenu" class="dropdown-menu">
+        <a href="form.html">Submit Found Item</a>
+        <a href="report.html">Submit Lost Item</a>
+        <a href="list.html">View Lost and Found Items</a>
+        <a href="claim.html">Claim Lost Items</a>
+        <a href="settings.html">Settings</a>
+        <a href="#" id="logoutLink">Logout</a>
     </div>
 
-    <!-- User greeting at top right -->
-    <div id="user-greeting"></div>
-
-    <h1>Lost and Found Items</h1>
-    <table>
+    <h1>View Lost and Found Items</h1>
+    
+    <table id="itemsTable">
         <thead>
             <tr>
                 <th>Item Name</th>
@@ -164,10 +81,12 @@
                 <th>Room Number</th>
                 <th>Current Location</th>
                 <th>Last Known Location</th>
-                <th>Date Submitted</th>
+                <th>Timestamp</th>
             </tr>
         </thead>
-        <tbody id="itemsTableBody"></tbody>
+        <tbody>
+            <!-- Data will be populated here dynamically -->
+        </tbody>
     </table>
 
     <a href="index.html" class="back-link">Back home</a>
