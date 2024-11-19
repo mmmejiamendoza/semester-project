@@ -62,7 +62,7 @@
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.classList.toggle('show');
                 if (dropdownMenu.classList.contains('show')) {
-                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight}px`;
+                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 10}px`; // Add margin below the dropdown
                 } else {
                     contentContainer.style.marginTop = '0';
                 }
@@ -113,7 +113,7 @@
             display: none;
             position: absolute;
             right: 0;
-            top: 40px;
+            top: 70px; /* Position the dropdown below the menu button */
             background-color: #ffffff;
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -144,6 +144,21 @@
 
         #content-container {
             transition: margin-top 0.3s ease;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
         }
     </style>
 </head>

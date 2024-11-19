@@ -54,9 +54,27 @@
                         console.error("Error logging out: ", error);
                     });
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function () {
+            const menuIcon = document.getElementById('menuIcon');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const contentContainer = document.getElementById('content-container');
+
+            menuIcon.addEventListener('click', () => {
+                dropdownMenu.classList.toggle('show');
+                if (dropdownMenu.classList.contains('show')) {
+                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight}px`;
+                } else {
+                    contentContainer.style.marginTop = '0';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!menuIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                    contentContainer.style.marginTop = '0';
+                }
+            });
+
             document.getElementById('foundItemForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
@@ -84,6 +102,47 @@
             });
         });
     </script>
+
+    <style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 70px; /* Adjusts to prevent overlap with the button */
+            left: 50%; /* Centers the dropdown */
+            transform: translateX(-50%); /* Centers the dropdown */
+            width: 200px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 10px;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            color: black;
+        }
+
+        #content-container {
+            transition: margin-top 0.3s ease;
+        }
+    </style>
 </head>
 <body>
     <div class="dropdown-menu-container">
@@ -99,27 +158,28 @@
     </div>
 
     <div id="user-greeting" style="position: absolute; top: 20px; right: 20px;"></div>
-    
-    <h1>Submit a Found Item</h1>
 
-    <form id="foundItemForm">
-        <label for="itemName">Item Name:</label>
-        <input type="text" id="itemName" required>
+    <div id="content-container">
+        <h1>Submit a Found Item</h1>
+        <form id="foundItemForm">
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" required>
 
-        <label for="itemDescription">Description:</label>
-        <input type="text" id="itemDescription" required>
+            <label for="itemDescription">Description:</label>
+            <input type="text" id="itemDescription" required>
 
-        <input type="hidden" id="foundBy">
+            <input type="hidden" id="foundBy">
 
-        <label for="roomNumber">Room Number:</label>
-        <input type="text" id="roomNumber">
+            <label for="roomNumber">Room Number:</label>
+            <input type="text" id="roomNumber">
 
-        <label for="currentLocation">Current Location:</label>
-        <input type="text" id="currentLocation">
+            <label for="currentLocation">Current Location:</label>
+            <input type="text" id="currentLocation">
 
-        <button type="submit">Submit Found Item</button>
-    </form>
+            <button type="submit">Submit Found Item</button>
+        </form>
 
-    <p id="dataStatus"></p>
+        <p id="dataStatus"></p>
+    </div>
 </body>
 </html>

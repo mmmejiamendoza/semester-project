@@ -6,31 +6,34 @@
     <title>Index Page</title>
     <link id="themeStylesheet" rel="stylesheet" href="dark-theme.css"> <!-- Default theme -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<<<<<<< HEAD
-=======
-    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
+
     <style>
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        body {
+            margin: 0;
         }
 
-        .dropdown-menu.show {
-            display: block;
+        nav {
+            background-color: #3a3a3a; /* Navbar background color */
+            color: #ffffff; /* Text color */
         }
 
-        .user-dropdown {
-            position: relative;
+        .navbar-nav .nav-link {
+            color: #ffffff !important; /* White text for links */
+        }
+
+        .navbar-nav .nav-link:hover {
+            background-color: #5a5a5a; /* Slightly lighter gray on hover */
+            border-radius: 4px;
+        }
+
+        #content-container {
+            margin-top: 80px; /* Adds space below the navbar */
         }
     </style>
->>>>>>> d9bd0eb9c057722a43eacc5fa93ca6e20f38858e
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <!-- Static Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lost and Found</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -47,44 +50,25 @@
                     <li class="nav-item">
                         <a class="nav-link" href="list.html">View Lost and Found Items</a>
                     </li>
-                    <!-- Updated link to claim.html -->
                     <li class="nav-item">
                         <a class="nav-link" href="claim.html">Claim Lost Items</a>
                     </li>
                 </ul>
-                <div class="user-dropdown">
-                    <button id="userButton" class="btn btn-light">Hello, Guest</button>
-                    <ul id="userDropdown" class="dropdown-menu">
-                        <li><a class="dropdown-item" href="settings.html">Settings</a></li>
-                        <li><a class="dropdown-item" href="#" id="logoutButton">Logout</a></li>
-                    </ul>
+                <div class="d-flex">
+                    <span id="userButton" class="navbar-text me-3">Hello, Guest</span>
+                    <a href="settings.html" class="btn btn-light btn-sm me-2">Settings</a>
+                    <button id="logoutButton" class="btn btn-danger btn-sm">Logout</button>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="container mt-5">
+    <div id="content-container" class="container mt-5">
         <h1 class="text-center">Welcome to Lost and Found</h1>
     </div>
 
     <script>
-        // Toggle dropdown visibility
-        function toggleDropdown() {
-            const dropdown = document.getElementById("userDropdown");
-            dropdown.classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-            if (!event.target.matches('#userButton')) {
-                const dropdown = document.getElementById("userDropdown");
-                if (dropdown && dropdown.classList.contains("show")) {
-                    dropdown.classList.remove("show");
-                }
-            }
-        };
-
         // Display the user's email in the greeting
         document.addEventListener('DOMContentLoaded', () => {
             const userEmail = localStorage.getItem('userEmail');
@@ -94,14 +78,12 @@
                 userButton.textContent = `Hello, ${userEmail}`;
             }
 
-            userButton.addEventListener('click', toggleDropdown);
-        });
-
-        // Logout functionality
-        document.getElementById('logoutButton').addEventListener('click', () => {
-            localStorage.removeItem('userEmail');
-            alert('You have been logged out.');
-            window.location.href = "login.html";
+            // Logout functionality
+            document.getElementById('logoutButton').addEventListener('click', () => {
+                localStorage.removeItem('userEmail');
+                alert('You have been logged out.');
+                window.location.href = "login.html";
+            });
         });
 
         // Load theme from localStorage if available

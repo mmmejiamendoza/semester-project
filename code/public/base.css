@@ -16,7 +16,7 @@ h1 {
     margin-bottom: 20px;
     width: 100%;
     text-align: center;
-    color: #333;
+    color: #bdbdbd;
 }
 
 /* Dropdown Menu */
@@ -25,7 +25,7 @@ h1 {
     cursor: pointer;
     padding: 6px;
     border-radius: 4px;
-    background-color: black;
+    background-color: rgb(224, 224, 224);
     color: white;
     display: inline-block;
     margin-top: 20px;
@@ -44,7 +44,7 @@ h1 {
     background-color: white;
     padding: 8px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(202, 202, 202, 0.2);
     width: 160px;
     position: absolute;
     top: 210px; /* Increased top value to push the dropdown further down */
@@ -56,7 +56,7 @@ h1 {
 .dropdown-menu a {
     margin: 4px 0;
     padding: 6px;
-    background-color: black;
+    background-color: rgb(207, 207, 207);
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -65,7 +65,7 @@ h1 {
 }
 
 .dropdown-menu a:hover {
-    background-color: #333;
+    background-color: #9f9f9f;
 }
 
 .logout-link {
@@ -89,14 +89,14 @@ th, td {
 }
 
 th {
-    background-color: #e47ab3;
+    background-color: #dcdcdc;
     color: white;
 }
 
 /* Button Styles */
 button {
     padding: 8px 12px;
-    background-color: #e47ab3;
+    background-color: #e4e4e4;
     color: white;
     border: none;
     border-radius: 4px;
@@ -104,13 +104,13 @@ button {
 }
 
 button:hover {
-    background-color: #e47ab3;
+    background-color: #bebebe;
 }
 
 /* Links */
 .back-link, .dropdown-menu a {
     padding: 10px 20px;
-    background-color: #e47ab3;
+    background-color: #f6f6f6;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -120,7 +120,7 @@ button:hover {
 }
 
 .back-link:hover, .dropdown-menu a:hover {
-    background-color: #f3bfd8;
+    background-color: #ffffff;
 }
 /* Navigation Styles */
 nav {

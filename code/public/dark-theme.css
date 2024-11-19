@@ -1,7 +1,7 @@
 /* General page styling */
 body {
-    background-color: #ffe6e6 !important; /* Light pink background */
-    color: #4a2a2a; /* Dark pink-brown text */
+    background-color: #000000 !important; /* Light pink background */
+    color: #050404; /* Dark pink-brown text */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -10,8 +10,8 @@ body {
 
 /* Container styling for centered content */
 .container {
-    background-color: #ffebee; /* Light pink containers */
-    color: #4a2a2a; /* Dark text */
+    background-color: #313132; /* Light pink containers */
+    color: #000000; /* Dark text */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     padding: 20px;
     border-radius: 8px;
@@ -21,7 +21,7 @@ body {
 
 /* Headings */
 h1, h2 {
-    color: #b33c5a !important; /* Medium-dark pink for headings */
+    color: #000000 !important; /* Medium-dark pink for headings */
     font-weight: bold;
 }
 
@@ -29,25 +29,25 @@ h1, h2 {
 table {
     width: 100%;
     border-collapse: collapse;
-    color: #4a2a2a; /* Dark pink-brown text */
+    color: #0d0a0a; /* Dark pink-brown text */
 }
 
 th, td {
     padding: 10px;
-    border: 1px solid #ffccd5; /* Light pink table borders */
+    border: 1px solid #030202; /* Light pink table borders */
     text-align: center;
-    background-color: #ffe6e6; /* Soft pink for table cells */
+    background-color: #000000; /* Soft pink for table cells */
 }
 
 th {
-    background-color: #ffb3c1; /* Slightly darker pink for table headers */
+    background-color: #121010; /* Slightly darker pink for table headers */
 }
 
 /* Button styling */
 button, .back-link, .logout-link {
-    background-color: #ff99aa; /* Medium pink for buttons */
-    color: #4a2a2a; /* Dark text */
-    border: 1px solid #ffccd5; /* Light pink border */
+    background-color: #22181a; /* Medium pink for buttons */
+    color: #090707; /* Dark text */
+    border: 1px solid #020202; /* Light pink border */
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
@@ -56,37 +56,37 @@ button, .back-link, .logout-link {
 }
 
 button:hover, .back-link:hover, .logout-link:hover {
-    background-color: #ff8098; /* Slightly darker pink on hover */
+    background-color: #151011; /* Slightly darker pink on hover */
 }
 
 /* Link styling */
 a, .dropdown-menu a {
-    color: #b33c5a; /* Medium-dark pink links */
+    color: #0c090a; /* Medium-dark pink links */
     text-decoration: none;
 }
 
 a:hover, .dropdown-menu a:hover {
-    color: #99394e; /* Darker pink on hover */
+    color: #060505; /* Darker pink on hover */
 }
 
 /* Dropdown menu styling */
 .menu-icon {
-    background-color: #ffb3c1; /* Light pink */
-    color: #4a2a2a; /* Dark text */
+    background-color: #0e0b0b; /* Light pink */
+    color: #000000; /* Dark text */
     padding: 8px;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .dropdown-menu {
-    background-color: #ffebee; /* Light pink dropdown background */
+    background-color: #2a2a2a; /* Light pink dropdown background */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     padding: 10px;
 }
 
 .dropdown-menu a {
-    background-color: #ff99aa; /* Medium pink button boxes */
+    background-color: #100c0d; /* Medium pink button boxes */
     padding: 8px;
     display: block;
     border-radius: 4px;
@@ -94,14 +94,14 @@ a:hover, .dropdown-menu a:hover {
 }
 
 .dropdown-menu a:hover {
-    background-color: #ff8098; /* Darker pink on hover */
+    background-color: #050404; /* Darker pink on hover */
 }
 
 /* Input fields */
 input[type="text"], input[type="email"], input[type="password"], select {
-    background-color: #ffe6e6; /* Light pink input background */
-    color: #4a2a2a; /* Dark text */
-    border: 1px solid #ffccd5; /* Light pink outline */
+    background-color: #2f2f2f; /* Light pink input background */
+    color: #504d4d; /* Dark text */
+    border: 1px solid #434343; /* Light pink outline */
     padding: 10px;
     border-radius: 4px;
     width: 100%;
@@ -110,20 +110,20 @@ input[type="text"], input[type="email"], input[type="password"], select {
 
 /* Form label styling */
 label {
-    color: #4a2a2a; /* Dark pink for form labels */
+    color: #000000; /* Dark pink for form labels */
     font-weight: bold;
 }
 
 /* Data status message */
 #dataStatus {
-    color: #4a2a2a; /* Dark pink for status messages */
+    color: #110d0d; /* Dark pink for status messages */
     font-weight: bold;
     margin-top: 10px;
 }
 
 /* Override specific color for paragraph text */
 p {
-    color: #4a2a2a; /* Dark pink paragraph text */
+    color: #000000; /* Dark pink paragraph text */
 }
 /* Navigation Styles */
 nav {
@@ -133,7 +133,7 @@ nav {
     width: 100%; /* Spans the entire width of the page */
     z-index: 1000; /* Ensures it appears above other elements */
     background-color: #3a3a3a; /* Navbar background color */
-    color: #f5f5f5; /* Text color for the navbar */
+    color: #5a5a5a; /* Text color for the navbar */
     padding: 10px 20px; /* Padding inside the navbar */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow for a 3D effect */
 }
