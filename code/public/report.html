@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Report a Lost Item</title>
-    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
-    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css">
+    <link rel="stylesheet" href="base.css">
 
     <script type="module">
-        // Firebase imports
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
-        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
             authDomain: "test-a03f0.firebaseapp.com",
@@ -25,20 +23,17 @@
             measurementId: "G-LX0R71CBRP"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Load theme from localStorage if available
             const themeStylesheet = document.getElementById('themeStylesheet');
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
 
-            // Check if the user is logged in and populate the owner field
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     document.getElementById('ownerName').value = user.email;
@@ -48,7 +43,6 @@
                 }
             });
 
-            // Logout function
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -60,16 +54,8 @@
                         console.error("Error logging out: ", error);
                     });
             });
-
-            // Toggle dropdown menu
-            const menuIcon = document.getElementById('menuIcon');
-            const dropdownMenu = document.getElementById('dropdownMenu');
-            menuIcon.addEventListener('click', () => {
-                dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
-            });
         });
 
-        // Form submission event
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('lostItemForm').addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -98,7 +84,6 @@
     </script>
 </head>
 <body>
-    <!-- Dropdown menu container for icon and menu -->
     <div class="dropdown-menu-container">
         <div id="menuIcon" class="menu-icon">&#9776; Menu</div>
         <div id="dropdownMenu" class="dropdown-menu">
@@ -107,13 +92,12 @@
             <a href="list.html">View Lost and Found Items</a>
             <a href="claim.html">Claim Lost Items</a>
             <a href="settings.html">Settings</a>
-            <a href="#" class="logout-link" id="logoutLink">Logout</a>
+            <a href="#" id="logoutLink">Logout</a>
         </div>
     </div>
 
-    <!-- User greeting at top right -->
-    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px; font-size: 1rem; font-weight: bold; color: #333;"></div>
-
+    <div id="user-greeting" style="position: absolute; top: 20px; right: 20px;"></div>
+    
     <h1>Report a Lost Item</h1>
 
     <form id="lostItemForm">
@@ -123,7 +107,6 @@
         <label for="itemDescription">Description:</label>
         <input type="text" id="itemDescription" required>
 
-        <!-- Owner Name field is hidden and populated automatically -->
         <input type="hidden" id="ownerName">
 
         <label for="lastKnownLocation">Last Known Location:</label>
@@ -132,8 +115,6 @@
         <button type="submit">Report Item</button>
     </form>
 
-    <div id="dataStatus"></div>
-
-    <a href="index.html" class="back-link">Back home</a>
+    <p id="dataStatus"></p>
 </body>
 </html>

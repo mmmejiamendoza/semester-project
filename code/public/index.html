@@ -6,6 +6,27 @@
     <title>Index Page</title>
     <link id="themeStylesheet" rel="stylesheet" href="dark-theme.css"> <!-- Default theme -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<<<<<<< HEAD
+=======
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
+    <style>
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .user-dropdown {
+            position: relative;
+        }
+    </style>
+>>>>>>> d9bd0eb9c057722a43eacc5fa93ca6e20f38858e
 </head>
 <body>
     <!-- Navbar -->
@@ -26,6 +47,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="list.html">View Lost and Found Items</a>
                     </li>
+                    <!-- Updated link to claim.html -->
                     <li class="nav-item">
                         <a class="nav-link" href="claim.html">Claim Lost Items</a>
                     </li>
@@ -81,6 +103,18 @@
             alert('You have been logged out.');
             window.location.href = "login.html";
         });
+
+        // Load theme from localStorage if available
+        const themeStylesheet = document.getElementById('themeStylesheet');
+
+        function loadSavedTheme() {
+            const savedTheme = localStorage.getItem('selectedTheme');
+            if (savedTheme) {
+                themeStylesheet.href = savedTheme;
+            }
+        }
+
+        loadSavedTheme(); // Load theme on page load
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
