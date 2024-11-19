@@ -61,6 +61,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+        import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
@@ -76,6 +77,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
+        const storage = getStorage(app);
 
         document.addEventListener('DOMContentLoaded', () => {
             const themeStylesheet = document.getElementById('themeStylesheet');
@@ -84,6 +86,7 @@
                 themeStylesheet.href = savedTheme;
             }
 
+            // Authentication state check
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     document.getElementById('user-greeting').textContent = `Hello, ${user.email}`;
@@ -92,6 +95,7 @@
                 }
             });
 
+            // Logout functionality
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -128,13 +132,20 @@
             const tableBody = document.getElementById('itemsTableBody');
 
             onValue(lostAndFoundRef, (snapshot) => {
-                tableBody.innerHTML = "";
+                tableBody.innerHTML = ""; // Clear previous data
                 const data = snapshot.val();
                 if (data) {
                     Object.keys(data).forEach((key) => {
                         const item = data[key];
                         const row = document.createElement('tr');
+
+                        // Get image URL from Firebase Storage
+                        const imageUrl = item.imagePath || 'images/default-placeholder.png'; // Use placeholder if no image
+                        
+                        const imageElement = `<img src="${imageUrl}" alt="Item Image" style="width: 50px; height: 50px; object-fit: cover;">`;
+
                         row.innerHTML = `
+                            <td>${imageElement}</td> <!-- Display image -->
                             <td>${item.itemName || "Not provided"}</td>
                             <td>${item.itemDescription || "Not provided"}</td>
                             <td>${item.foundBy || "N/A"}</td>
@@ -147,7 +158,7 @@
                         tableBody.appendChild(row);
                     });
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="8">No items found.</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="9">No items found.</td></tr>'; // Handle if no items
                 }
             });
         });
@@ -173,6 +184,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Found By</th>

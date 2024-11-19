@@ -93,18 +93,21 @@
 
                 let imageUrl = '';
 
+                const submitButton = document.getElementById("submitButton");
+
+                // Disable the button while processing
+                submitButton.disabled = true;
+
                 // Check if there's an image file and handle accordingly
                 if (imageFile) {
-                    // Disable the button to avoid multiple clicks
-                    const submitButton = document.getElementById("submitButton");
-                    submitButton.disabled = true;
-
+                    console.log("Uploading image...");
                     // Upload image to Firebase Storage
                     const imageRef = storageRef(storage, `found-items/${Date.now()}_${imageFile.name}`);
                     uploadBytes(imageRef, imageFile).then((snapshot) => {
+                        console.log("Image uploaded successfully", snapshot);
                         getDownloadURL(snapshot.ref()).then((url) => {
                             imageUrl = url;
-                            saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl);
+                            saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl, submitButton);
                         }).catch((error) => {
                             console.error("Error getting image URL:", error);
                             submitButton.disabled = false; // Re-enable button on error
@@ -115,12 +118,12 @@
                     });
                 } else {
                     // If no image is uploaded, just submit the form with empty imageUrl
-                    saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, '');
+                    saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, '', submitButton);
                 }
             });
 
             // Function to save item data to the Firebase database
-            function saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl) {
+            function saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl, submitButton) {
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
@@ -133,10 +136,10 @@
                 }).then(() => {
                     document.getElementById('dataStatus').textContent = "Found item submitted successfully!";
                     document.getElementById('foundItemForm').reset(); // Reset the form after submission
-                    document.getElementById("submitButton").disabled = false; // Re-enable submit button
+                    submitButton.disabled = false; // Re-enable submit button
                 }).catch((error) => {
                     document.getElementById('dataStatus').textContent = "Error submitting item: " + error.message;
-                    document.getElementById("submitButton").disabled = false; // Re-enable submit button on error
+                    submitButton.disabled = false; // Re-enable submit button on error
                 });
             }
         });
