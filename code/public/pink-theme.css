@@ -1,6 +1,6 @@
 /* General styling */
 body {
-    background: linear-gradient(135deg, #ffe6e6, #ffccd5, #ffb3c1) !important; /* Pink gradient background */
+    background: linear-gradient(135deg, #ffe6e6, #ffccd5, #ffb3c1); /* Pink gradient background */
     color: #4a2a2a; /* Dark pink-brown text for contrast */
     font-family: Arial, sans-serif;
     margin: 0;

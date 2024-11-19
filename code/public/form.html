@@ -11,6 +11,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
@@ -26,6 +27,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
+        const storage = getStorage(app);
 
         document.addEventListener('DOMContentLoaded', () => {
             const themeStylesheet = document.getElementById('themeStylesheet');
@@ -34,27 +36,7 @@
                 themeStylesheet.href = savedTheme;
             }
 
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    document.getElementById('foundBy').value = user.email;
-                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
-                } else {
-                    window.location.href = "login.html";
-                }
-            });
-
-            document.getElementById("logoutLink").addEventListener("click", (e) => {
-                e.preventDefault();
-                signOut(auth)
-                    .then(() => {
-                        alert("Successfully logged out!");
-                        window.location.href = "login.html";
-                    })
-                    .catch((error) => {
-                        console.error("Error logging out: ", error);
-                    });
-            });
-
+            // Menu button functionality
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const contentContainer = document.getElementById('content-container');
@@ -62,7 +44,7 @@
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.classList.toggle('show');
                 if (dropdownMenu.classList.contains('show')) {
-                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight}px`;
+                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 10}px`; // Adjust margin
                 } else {
                     contentContainer.style.marginTop = '0';
                 }
@@ -75,6 +57,30 @@
                 }
             });
 
+            // Authentication state check
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    document.getElementById('foundBy').value = user.email;
+                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
+                } else {
+                    window.location.href = "login.html";
+                }
+            });
+
+            // Logout functionality
+            document.getElementById("logoutLink").addEventListener("click", (e) => {
+                e.preventDefault();
+                signOut(auth)
+                    .then(() => {
+                        alert("Successfully logged out!");
+                        window.location.href = "login.html";
+                    })
+                    .catch((error) => {
+                        console.error("Error logging out: ", error);
+                    });
+            });
+
+            // Form submission functionality
             document.getElementById('foundItemForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
@@ -83,7 +89,38 @@
                 const foundBy = document.getElementById('foundBy').value;
                 const roomNumber = document.getElementById('roomNumber').value;
                 const currentLocation = document.getElementById('currentLocation').value;
+                const imageFile = document.getElementById('imageFile').files[0];
 
+                let imageUrl = '';
+
+                // Check if there's an image file and handle accordingly
+                if (imageFile) {
+                    // Disable the button to avoid multiple clicks
+                    const submitButton = document.getElementById("submitButton");
+                    submitButton.disabled = true;
+
+                    // Upload image to Firebase Storage
+                    const imageRef = storageRef(storage, `found-items/${Date.now()}_${imageFile.name}`);
+                    uploadBytes(imageRef, imageFile).then((snapshot) => {
+                        getDownloadURL(snapshot.ref()).then((url) => {
+                            imageUrl = url;
+                            saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl);
+                        }).catch((error) => {
+                            console.error("Error getting image URL:", error);
+                            submitButton.disabled = false; // Re-enable button on error
+                        });
+                    }).catch((error) => {
+                        console.error("Error uploading image:", error);
+                        submitButton.disabled = false; // Re-enable button on error
+                    });
+                } else {
+                    // If no image is uploaded, just submit the form with empty imageUrl
+                    saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, '');
+                }
+            });
+
+            // Function to save item data to the Firebase database
+            function saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl) {
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
@@ -91,15 +128,17 @@
                     foundBy: foundBy,
                     roomNumber: roomNumber,
                     currentLocation: currentLocation,
+                    imagePath: imageUrl,
                     timestamp: new Date().toISOString()
                 }).then(() => {
                     document.getElementById('dataStatus').textContent = "Found item submitted successfully!";
+                    document.getElementById('foundItemForm').reset(); // Reset the form after submission
+                    document.getElementById("submitButton").disabled = false; // Re-enable submit button
                 }).catch((error) => {
                     document.getElementById('dataStatus').textContent = "Error submitting item: " + error.message;
+                    document.getElementById("submitButton").disabled = false; // Re-enable submit button on error
                 });
-
-                document.getElementById('foundItemForm').reset();
-            });
+            }
         });
     </script>
 
@@ -176,7 +215,10 @@
             <label for="currentLocation">Current Location:</label>
             <input type="text" id="currentLocation">
 
-            <button type="submit">Submit Found Item</button>
+            <label for="imageFile">Upload Image:</label>
+            <input type="file" id="imageFile" accept="image/*">
+
+            <button type="submit" id="submitButton">Submit Found Item</button>
         </form>
 
         <p id="dataStatus"></p>

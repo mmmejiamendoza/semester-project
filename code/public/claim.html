@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Lost and Found Items</title>
-    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
-    <link rel="stylesheet" href="base.css"> <!-- Link to shared base CSS -->
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css">
+    <link rel="stylesheet" href="base.css">
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
@@ -36,8 +36,7 @@
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    const userEmail = user.email;
-                    document.getElementById('user-greeting').innerHTML = `Hello, ${userEmail}`;
+                    document.getElementById('user-greeting').innerHTML = `Hello, ${user.email}`;
                 } else {
                     window.location.href = "login.html";
                 }
@@ -50,43 +49,45 @@
                         alert("Successfully logged out!");
                         window.location.href = "login.html";
                     })
-                    .catch((error) => {
-                        console.error("Error logging out: ", error);
-                    });
+                    .catch((error) => console.error("Error logging out:", error));
             });
 
+            // Menu button functionality for the dropdown
             const menuIcon = document.getElementById('menuIcon');
             const dropdownMenu = document.getElementById('dropdownMenu');
-            const contentContainer = document.getElementById('content-container');
-
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.classList.toggle('show');
+                // Adjust margin if dropdown is visible
+                const contentContainer = document.getElementById('content-container');
                 if (dropdownMenu.classList.contains('show')) {
-                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 10}px`; // Add margin below the dropdown
+                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 10}px`; // Add margin
                 } else {
                     contentContainer.style.marginTop = '0';
                 }
             });
 
+            // Close dropdown if clicked outside
             document.addEventListener('click', (e) => {
                 if (!menuIcon.contains(e.target) && !dropdownMenu.contains(e.target)) {
                     dropdownMenu.classList.remove('show');
-                    contentContainer.style.marginTop = '0';
+                    document.getElementById('content-container').style.marginTop = '0';
                 }
             });
 
+            // Fetch data from Firebase and populate table
             const lostAndFoundRef = ref(database, 'lostAndFound');
             const tableBody = document.getElementById('itemsTableBody');
 
             onValue(lostAndFoundRef, (snapshot) => {
-                tableBody.innerHTML = "";
+                tableBody.innerHTML = ""; // Clear existing table content
                 const data = snapshot.val();
                 for (const key in data) {
                     const item = data[key];
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td>${item.itemName}</td>
-                        <td>${item.itemDescription}</td>
+                        <td><img src="images/default-placeholder.png" alt="Item Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
+                        <td>${item.itemName || "Not provided"}</td>
+                        <td>${item.itemDescription || "Not provided"}</td>
                         <td>${item.foundBy || "Unknown"}</td>
                         <td>${new Date(item.timestamp).toLocaleString()}</td>
                         <td><button onclick="claimItem('${key}')">Claim</button></td>
@@ -99,11 +100,8 @@
         window.claimItem = function (itemKey) {
             if (confirm("Are you sure you want to claim this item?")) {
                 const itemRef = ref(database, `lostAndFound/${itemKey}`);
-                remove(itemRef).then(() => {
-                    alert("Item successfully claimed!");
-                }).catch((error) => {
-                    console.error("Error removing item: ", error);
-                });
+                remove(itemRef).then(() => alert("Item successfully claimed!"))
+                    .catch((error) => console.error("Error removing item:", error));
             }
         };
     </script>
@@ -112,9 +110,11 @@
         .dropdown-menu {
             display: none;
             position: absolute;
-            right: 0;
-            top: 70px; /* Position the dropdown below the menu button */
-            background-color: #ffffff;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            background-color: #fff;
             border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             z-index: 1000;
@@ -160,6 +160,10 @@
         th {
             background-color: #f4f4f4;
         }
+
+        img {
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -171,7 +175,7 @@
             <a href="list.html">View Lost and Found Items</a>
             <a href="claim.html">Claim Lost Items</a>
             <a href="settings.html">Settings</a>
-            <a href="#" class="logout-link" id="logoutLink">Logout</a>
+            <a href="#" id="logoutLink">Logout</a>
         </div>
     </div>
 
@@ -182,6 +186,7 @@
         <table>
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Found By</th>
