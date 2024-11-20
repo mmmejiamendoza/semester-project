@@ -55,13 +55,45 @@
         #content-container {
             transition: margin-top 0.3s ease;
         }
+
+        #searchBar {
+            margin: 20px;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        img {
+            border-radius: 4px;
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
     </style>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
-        import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
@@ -77,7 +109,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
-        const storage = getStorage(app);
 
         document.addEventListener('DOMContentLoaded', () => {
             const themeStylesheet = document.getElementById('themeStylesheet');
@@ -86,7 +117,6 @@
                 themeStylesheet.href = savedTheme;
             }
 
-            // Authentication state check
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     document.getElementById('user-greeting').textContent = `Hello, ${user.email}`;
@@ -95,7 +125,6 @@
                 }
             });
 
-            // Logout functionality
             document.getElementById("logoutLink").addEventListener("click", (e) => {
                 e.preventDefault();
                 signOut(auth)
@@ -132,20 +161,14 @@
             const tableBody = document.getElementById('itemsTableBody');
 
             onValue(lostAndFoundRef, (snapshot) => {
-                tableBody.innerHTML = ""; // Clear previous data
+                tableBody.innerHTML = "";
                 const data = snapshot.val();
                 if (data) {
                     Object.keys(data).forEach((key) => {
                         const item = data[key];
                         const row = document.createElement('tr');
-
-                        // Get image URL from Firebase Storage
-                        const imageUrl = item.imagePath || 'images/default-placeholder.png'; // Use placeholder if no image
-                        
-                        const imageElement = `<img src="${imageUrl}" alt="Item Image" style="width: 50px; height: 50px; object-fit: cover;">`;
-
                         row.innerHTML = `
-                            <td>${imageElement}</td> <!-- Display image -->
+                            <td><img src="${item.imagePath || 'default-placeholder.png'}" alt="Item Image"></td>
                             <td>${item.itemName || "Not provided"}</td>
                             <td>${item.itemDescription || "Not provided"}</td>
                             <td>${item.foundBy || "N/A"}</td>
@@ -158,7 +181,24 @@
                         tableBody.appendChild(row);
                     });
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="9">No items found.</td></tr>'; // Handle if no items
+                    tableBody.innerHTML = '<tr><td colspan="9">No items found.</td></tr>';
+                }
+            });
+
+            // Search bar functionality
+            const searchBar = document.getElementById('searchBar');
+            searchBar.addEventListener('input', function() {
+                const filter = searchBar.value.toLowerCase();
+                const rows = tableBody.getElementsByTagName('tr');
+
+                for (let i = 0; i < rows.length; i++) {
+                    const cells = rows[i].getElementsByTagName('td');
+                    let rowText = '';
+                    for (let j = 0; j < cells.length; j++) {
+                        rowText += cells[j].textContent.toLowerCase() + ' '; // Collect all text content from each cell
+                    }
+                    // Check if the row's text content matches the filter
+                    rows[i].style.display = rowText.includes(filter) ? "" : "none";
                 }
             });
         });
@@ -181,6 +221,10 @@
 
     <div id="content-container">
         <h1>Lost and Found Items</h1>
+
+        <!-- Search Bar -->
+        <input type="text" id="searchBar" placeholder="Search for items...">
+
         <table>
             <thead>
                 <tr>
@@ -199,6 +243,7 @@
                 <!-- Dynamic content here -->
             </tbody>
         </table>
+
         <a href="index.html" class="back-link">Back home</a>
     </div>
 </body>
