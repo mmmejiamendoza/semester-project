@@ -11,7 +11,7 @@
         .dropdown-menu {
             display: none;
             position: absolute;
-            top: 60px; /* Adjusted for better alignment */
+            top: 60px;
             left: 50%;
             transform: translateX(-50%);
             background-color: #fff;
@@ -61,6 +61,14 @@
             padding: 10px;
             width: 100%;
             max-width: 300px;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        #columnFilter {
+            margin: 20px;
+            padding: 10px;
             font-size: 1rem;
             border-radius: 4px;
             border: 1px solid #ccc;
@@ -144,7 +152,7 @@
             menuIcon.addEventListener('click', () => {
                 dropdownMenu.classList.toggle('show');
                 if (dropdownMenu.classList.contains('show')) {
-                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 20}px`; /* Add extra space */
+                    contentContainer.style.marginTop = `${dropdownMenu.offsetHeight + 20}px`;
                 } else {
                     contentContainer.style.marginTop = '0';
                 }
@@ -185,20 +193,22 @@
                 }
             });
 
-            // Search bar functionality
             const searchBar = document.getElementById('searchBar');
+            const columnFilter = document.getElementById('columnFilter');
+
             searchBar.addEventListener('input', function() {
                 const filter = searchBar.value.toLowerCase();
+                const column = columnFilter.value;
                 const rows = tableBody.getElementsByTagName('tr');
 
                 for (let i = 0; i < rows.length; i++) {
                     const cells = rows[i].getElementsByTagName('td');
-                    let rowText = '';
-                    for (let j = 0; j < cells.length; j++) {
-                        rowText += cells[j].textContent.toLowerCase() + ' '; // Collect all text content from each cell
+                    const targetCell = cells[column];
+                    if (targetCell && targetCell.textContent.toLowerCase().includes(filter)) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
                     }
-                    // Check if the row's text content matches the filter
-                    rows[i].style.display = rowText.includes(filter) ? "" : "none";
                 }
             });
         });
@@ -223,7 +233,18 @@
         <h1>Lost and Found Items</h1>
 
         <!-- Search Bar -->
-        <input type="text" id="searchBar" placeholder="Search for items...">
+        <div style="display: flex; align-items: center;">
+            <input type="text" id="searchBar" placeholder="Search for items...">
+            <select id="columnFilter">
+                <option value="1">Item Name</option>
+                <option value="2">Description</option>
+                <option value="3">Found By</option>
+                <option value="4">Owner Name</option>
+                <option value="5">Room Number</option>
+                <option value="6">Current Location</option>
+                <option value="7">Last Known Location</option>
+            </select>
+        </div>
 
         <table>
             <thead>
