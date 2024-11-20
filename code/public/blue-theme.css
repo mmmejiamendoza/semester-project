@@ -1,51 +1,59 @@
-/* General page styling */
+/* General Styling */
 body {
-    background-color: #1a1f3d; /* Dark blue background */
-    color: #ffffff; /* White text */
-    font-family: Arial, sans-serif;
+    background-color: #0a68a3 ; /* Light background */
+    color: #333333 ; /* Darker text */
+    font-family: Arial, sans-serif; /* Consistent font */
     margin: 0;
     padding: 0;
 }
 
-/* Container styling for centered content */
+a {
+    color: #79b3f5 ; /* Blue links */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #4657b7; /* Darker blue on hover */
+}
+
+/* Container Styling */
 .container {
-    background-color: #1a1f3d; /* Match body background color */
-    color: #ffffff; /* White text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: #3a5988; /* White for containers */
+    color: #1b222b; /* Darker text */
     padding: 20px;
     border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     max-width: 800px;
-    text-align: center;
 }
 
 /* Headings */
 h1, h2 {
-    color: #dbe4ff; /* Light blue for headings */
+    color: #212121; /* Darker headings */
 }
 
-/* Table styling */
+/* Table Styling */
 table {
     width: 100%;
     border-collapse: collapse;
-    color: #ffffff; /* White text */
+    color: #251ca3 ; /* Dark text */
 }
 
 th, td {
     padding: 10px;
-    border: 1px solid #dbe4ff; /* Light blue table borders */
+    border: 1px solid #000000; /* Light border */
     text-align: center;
-    background-color: #2a355d; /* Slightly lighter blue for table cells */
+    background-color: #200ba8 ; /* White background */
 }
 
 th {
-    background-color: #3d4d79; /* Darker blue for table headers */
+    background-color: #1a25c3 ; /* Slightly darker for headers */
 }
 
-/* Button styling */
+/* Buttons */
 button, .back-link, .logout-link {
-    background-color: #3d579d; /* Blue button background */
-    color: #ffffff; /* White text */
-    border: 1px solid #dbe4ff; /* Light blue outline */
+    background-color: #243cb3; /* Blue button */
+    color: #272626; /* White text */
+    border: 1px solid #4d4d4d; /* Darker blue border */
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
@@ -53,37 +61,31 @@ button, .back-link, .logout-link {
 }
 
 button:hover, .back-link:hover, .logout-link:hover {
-    background-color: #3c5dca; /* Brighter blue on hover */
+    background-color: #0f1a8f ; /* Darker blue on hover */
 }
 
-/* Link styling */
-a, .dropdown-menu a {
-    color: #dbe4ff; /* Light blue links */
-    text-decoration: none;
-}
-
-a:hover, .dropdown-menu a:hover {
-    color: #b0c4ff; /* Slightly lighter blue on hover */
-}
-
-/* Dropdown menu styling */
-.menu-icon {
-    background-color: #3c5dca; /* Blue background */
-    color: #ffffff; /* White text */
-    padding: 8px;
+/* Inputs */
+input[type="text"], input[type="email"], input[type="password"], select {
+    background-color: #292fe0 ; /* White input background */
+    color: #141414 ; /* Dark text */
+    border: 1px solid #1126c4; /* Light border */
+    padding: 10px;
     border-radius: 4px;
-    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
+/* Dropdown Menu */
 .dropdown-menu {
-    background-color: #3c5dca; /* Dark blue dropdown background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: #ffffff ; /* White dropdown */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 10px;
+    border: 1px solid #969696 ; /* Subtle border */
 }
 
 .dropdown-menu a {
-    background-color: #3c5dca; /* Blue button boxes */
+    background-color: #f2f2f2 ; /* Very light grey button boxes */
     padding: 8px;
     display: block;
     border-radius: 4px;
@@ -91,28 +93,27 @@ a:hover, .dropdown-menu a:hover {
 }
 
 .dropdown-menu a:hover {
-    background-color: #2554ed; /* Brighter blue on hover */
+    background-color: #e0e0e0 ; /* Slightly darker grey on hover */
 }
 
-/* Input fields */
-input[type="text"], input[type="email"], input[type="password"], select {
-    background-color: #2a355d; /* Darker input background */
-    color: #ffffff; /* White text */
-    border: 1px solid #dbe4ff; /* Light blue outline */
-    padding: 10px;
-    border-radius: 4px;
-    width: 100%;
-    margin-bottom: 10px;
-}
-/* Navigation Styles */
+/* Navbar Styling */
 nav {
-    position: fixed; /* Fixes the navbar to the top of the page */
-    top: 0;
-    left: 0;
-    width: 100%; /* Spans the entire width of the page */
-    z-index: 1000; /* Ensures it appears above other elements */
-    background-color: #3a3a3a; /* Navbar background color */
-    color: #f5f5f5; /* Text color for the navbar */
-    padding: 10px 20px; /* Padding inside the navbar */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow for a 3D effect */
+    position: fixed ; /* Fix navbar */
+    top: 0 ;
+    left: 0 ;
+    width: 100% ; /* Full width */
+    z-index: 1000; /* On top of other elements */
+    background-color: #9d9c9c; /* White navbar */
+    color: #878787; /* Dark text */
+    padding: 10px 20px ;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) ; /* Subtle shadow */
+}
+
+.navbar a, .navbar-text {
+    color: #7b7b7b ; /* Blue links */
+    font-size: 1rem;
+}
+
+.navbar a:hover {
+    color: #8caed2 ; /* Darker blue on hover */
 }
