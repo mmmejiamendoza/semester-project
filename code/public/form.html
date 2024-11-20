@@ -11,7 +11,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
         import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
@@ -27,7 +26,6 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
         const database = getDatabase(app);
-        const storage = getStorage(app);
 
         document.addEventListener('DOMContentLoaded', () => {
             const themeStylesheet = document.getElementById('themeStylesheet');
@@ -83,56 +81,26 @@
                 const itemName = document.getElementById('itemName').value;
                 const itemDescription = document.getElementById('itemDescription').value;
                 const foundBy = document.getElementById('foundBy').value;
+                const contactInfo = document.getElementById('contactInfo').value;
                 const roomNumber = document.getElementById('roomNumber').value;
                 const currentLocation = document.getElementById('currentLocation').value;
-                const imageFile = document.getElementById('imageFile').files[0];
 
-                let imageUrl = '';
-
-                const submitButton = document.getElementById("submitButton");
-
-                submitButton.disabled = true;
-
-                if (imageFile) {
-                    console.log("Uploading image...");
-                    const imageRef = storageRef(storage, `found-items/${Date.now()}_${imageFile.name}`);
-                    uploadBytes(imageRef, imageFile).then((snapshot) => {
-                        console.log("Image uploaded successfully", snapshot);
-                        getDownloadURL(snapshot.ref()).then((url) => {
-                            imageUrl = url;
-                            saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl, submitButton);
-                        }).catch((error) => {
-                            console.error("Error getting image URL:", error);
-                            submitButton.disabled = false;
-                        });
-                    }).catch((error) => {
-                        console.error("Error uploading image:", error);
-                        submitButton.disabled = false;
-                    });
-                } else {
-                    saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, '', submitButton);
-                }
-            });
-
-            function saveItemToDatabase(itemName, itemDescription, foundBy, roomNumber, currentLocation, imageUrl, submitButton) {
                 const newItemRef = push(ref(database, 'lostAndFound'));
                 set(newItemRef, {
                     itemName: itemName,
                     itemDescription: itemDescription,
                     foundBy: foundBy,
+                    contactInfo: contactInfo,
                     roomNumber: roomNumber,
                     currentLocation: currentLocation,
-                    imagePath: imageUrl,
                     timestamp: new Date().toISOString()
                 }).then(() => {
                     document.getElementById('dataStatus').textContent = "Found item submitted successfully!";
                     document.getElementById('foundItemForm').reset();
-                    submitButton.disabled = false;
                 }).catch((error) => {
                     document.getElementById('dataStatus').textContent = "Error submitting item: " + error.message;
-                    submitButton.disabled = false;
                 });
-            }
+            });
         });
     </script>
 
@@ -203,14 +171,14 @@
 
             <input type="hidden" id="foundBy">
 
+            <label for="contactInfo">Your Contact Information:</label>
+            <input type="text" id="contactInfo" placeholder="Phone number or email" required>
+
             <label for="roomNumber">Room Number:</label>
             <input type="text" id="roomNumber">
 
             <label for="currentLocation">Current Location:</label>
             <input type="text" id="currentLocation">
-
-            <label for="imageFile">Upload Image:</label>
-            <input type="file" id="imageFile" accept="image/*">
 
             <button type="submit" id="submitButton">Submit Found Item</button>
             <button onclick="window.location.href='index.html'" style="margin-top: 10px;">Go Back</button>

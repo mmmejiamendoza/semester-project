@@ -81,15 +81,19 @@
             onValue(lostAndFoundRef, (snapshot) => {
                 tableBody.innerHTML = ""; // Clear existing table content
                 const data = snapshot.val();
+                const now = new Date(); // Current date
+
                 for (const key in data) {
                     const item = data[key];
+                    const submittedDate = new Date(item.timestamp);
+                    const daysAgo = Math.floor((now - submittedDate) / (1000 * 60 * 60 * 24)); // Calculate days difference
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                        <td><img src="images/default-placeholder.png" alt="Item Image" style="width: 50px; height: 50px; object-fit: cover;"></td>
                         <td>${item.itemName || "Not provided"}</td>
                         <td>${item.itemDescription || "Not provided"}</td>
                         <td>${item.foundBy || "Unknown"}</td>
-                        <td>${new Date(item.timestamp).toLocaleString()}</td>
+                        <td>${daysAgo} days ago</td>
                         <td><button onclick="claimItem('${key}')">Claim</button></td>
                     `;
                     tableBody.appendChild(row);
@@ -160,10 +164,6 @@
         th {
             background-color: #f4f4f4;
         }
-
-        img {
-            border-radius: 4px;
-        }
     </style>
 </head>
 <body>
@@ -186,11 +186,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Image</th>
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Found By</th>
-                    <th>Date Submitted</th>
+                    <th>Timeframe</th>
                     <th>Action</th>
                 </tr>
             </thead>

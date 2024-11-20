@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index Page</title>
-    <link id="themeStylesheet" rel="stylesheet" href="dark-theme.css"> <!-- Default theme -->
+    <title>Lost and Found</title>
+    <link id="themeStylesheet" rel="stylesheet" href="dark-theme.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -13,26 +13,55 @@
         }
 
         nav {
-            background-color: #3a3a3a; /* Navbar background color */
-            color: #ffffff; /* Text color */
+            background-color: #3a3a3a;
+            color: #ffffff;
         }
 
         .navbar-nav .nav-link {
-            color: #ffffff !important; /* White text for links */
+            color: #ffffff !important;
         }
 
         .navbar-nav .nav-link:hover {
-            background-color: #5a5a5a; /* Slightly lighter gray on hover */
+            background-color: #5a5a5a;
             border-radius: 4px;
         }
 
-        #content-container {
-            margin-top: 80px; /* Adds space below the navbar */
+        .hero {
+            background: linear-gradient(135deg, #4a90e2, #3a3a3a);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #3a3a3a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
-    <!-- Static Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lost and Found</a>
@@ -63,13 +92,52 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div id="content-container" class="container mt-5">
-        <h1 class="text-center">Welcome to Lost and Found</h1>
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome to Lost and Found</h1>
+        <p>Quickly find and claim your lost items or help others by reporting what you’ve found.</p>
+        <a href="list.html" class="btn btn-primary btn-lg">View Items</a>
+    </div>
+
+    <!-- Action Cards -->
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card text-center p-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Submit Found Item</h5>
+                        <p class="card-text">Help reunite items with their owners by reporting what you've found.</p>
+                        <a href="form.html" class="btn btn-primary">Submit Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center p-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Submit Lost Item</h5>
+                        <p class="card-text">Lost something? Let us know so others can help you find it.</p>
+                        <a href="report.html" class="btn btn-primary">Report Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center p-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Claim Your Item</h5>
+                        <p class="card-text">View reported items and claim what’s rightfully yours.</p>
+                        <a href="claim.html" class="btn btn-primary">Claim Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Lost and Found. All rights reserved.</p>
     </div>
 
     <script>
-        // Display the user's email in the greeting
         document.addEventListener('DOMContentLoaded', () => {
             const userEmail = localStorage.getItem('userEmail');
             const userButton = document.getElementById('userButton');
@@ -78,7 +146,6 @@
                 userButton.textContent = `Hello, ${userEmail}`;
             }
 
-            // Logout functionality
             document.getElementById('logoutButton').addEventListener('click', () => {
                 localStorage.removeItem('userEmail');
                 alert('You have been logged out.');
@@ -86,17 +153,15 @@
             });
         });
 
-        // Load theme from localStorage if available
+        // Load saved theme
         const themeStylesheet = document.getElementById('themeStylesheet');
-
         function loadSavedTheme() {
             const savedTheme = localStorage.getItem('selectedTheme');
             if (savedTheme) {
                 themeStylesheet.href = savedTheme;
             }
         }
-
-        loadSavedTheme(); // Load theme on page load
+        loadSavedTheme();
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

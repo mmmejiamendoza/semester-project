@@ -84,17 +84,45 @@
             padding: 10px;
             border: 1px solid #ddd;
             text-align: left;
+            white-space: nowrap;
         }
 
         th {
             background-color: #f4f4f4;
         }
 
-        img {
+        .expanded-row {
+        background-color: #f9f9f9;
+        z-index: 2;
+        position: relative;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.2); /* Increased scale for a larger expansion */
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .expanded-row td {
+        padding: 20px; /* Increased padding for larger spacing */
+        line-height: 1.5; /* Increased line-height for better readability */
+    }
+
+        .blurred {
+            filter: blur(3px);
+            pointer-events: none;
+        }
+
+        .close-button {
+            display: block;
+            margin: 10px auto;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
             border-radius: 4px;
-            width: 50px;
-            height: 50px;
-            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            background-color: #0056b3;
         }
     </style>
 
@@ -176,27 +204,27 @@
                         const item = data[key];
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td><img src="${item.imagePath || 'default-placeholder.png'}" alt="Item Image"></td>
                             <td>${item.itemName || "Not provided"}</td>
                             <td>${item.itemDescription || "Not provided"}</td>
                             <td>${item.foundBy || "N/A"}</td>
-                            <td>${item.ownerName || "N/A"}</td>
+                            <td>${item.contactInfo || "N/A"}</td>
                             <td>${item.roomNumber || "N/A"}</td>
                             <td>${item.currentLocation || "N/A"}</td>
                             <td>${item.lastKnownLocation || "N/A"}</td>
                             <td>${new Date(item.timestamp).toLocaleString()}</td>
                         `;
+                        row.addEventListener('click', () => expandRow(row));
                         tableBody.appendChild(row);
                     });
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="9">No items found.</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="8">No items found.</td></tr>';
                 }
             });
 
             const searchBar = document.getElementById('searchBar');
             const columnFilter = document.getElementById('columnFilter');
 
-            searchBar.addEventListener('input', function() {
+            searchBar.addEventListener('input', function () {
                 const filter = searchBar.value.toLowerCase();
                 const column = columnFilter.value;
                 const rows = tableBody.getElementsByTagName('tr');
@@ -211,6 +239,29 @@
                     }
                 }
             });
+
+            function expandRow(row) {
+                const allRows = Array.from(tableBody.getElementsByTagName('tr'));
+                allRows.forEach(r => {
+                    if (r !== row) {
+                        r.classList.add('blurred');
+                    }
+                });
+
+                row.classList.add('expanded-row');
+
+                const closeButton = document.createElement('button');
+                closeButton.textContent = "Close";
+                closeButton.classList.add('close-button');
+                closeButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    allRows.forEach(r => r.classList.remove('blurred'));
+                    row.classList.remove('expanded-row');
+                    closeButton.remove();
+                });
+
+                row.appendChild(closeButton);
+            }
         });
     </script>
 </head>
@@ -232,28 +283,26 @@
     <div id="content-container">
         <h1>Lost and Found Items</h1>
 
-        <!-- Search Bar -->
         <div style="display: flex; align-items: center;">
             <input type="text" id="searchBar" placeholder="Search for items...">
             <select id="columnFilter">
-                <option value="1">Item Name</option>
-                <option value="2">Description</option>
-                <option value="3">Found By</option>
-                <option value="4">Owner Name</option>
-                <option value="5">Room Number</option>
-                <option value="6">Current Location</option>
-                <option value="7">Last Known Location</option>
+                <option value="0">Item Name</option>
+                <option value="1">Description</option>
+                <option value="2">Found By</option>
+                <option value="3">Contact Info</option>
+                <option value="4">Room Number</option>
+                <option value="5">Current Location</option>
+                <option value="6">Last Known Location</option>
             </select>
         </div>
 
         <table>
             <thead>
                 <tr>
-                    <th>Image</th>
                     <th>Item Name</th>
                     <th>Description</th>
                     <th>Found By</th>
-                    <th>Owner Name</th>
+                    <th>Contact Info</th>
                     <th>Room Number</th>
                     <th>Current Location</th>
                     <th>Last Known Location</th>
