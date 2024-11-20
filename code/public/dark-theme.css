@@ -1,139 +1,41 @@
-/* General page styling */
+/* Dark theme styles */
 body {
-    background-color: #000000; /* Light pink background */
-    color: #050404; /* Dark pink-brown text */
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    
+    background-color: #ececec;
+    color: #e0e0e0;
 }
 
-/* Container styling for centered content */
-.container {
-    background-color: #313132; /* Light pink containers */
-    color: #000000; /* Dark text */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 800px;
-    text-align: center;
+/* Links */
+a, .navbar a {
+    color: #80d4ff;
 }
 
-/* Headings */
-h1, h2 {
-    color: #000000 !important; /* Medium-dark pink for headings */
-    font-weight: bold;
+a:hover, .navbar a:hover {
+    color: #40aaff;
 }
 
-/* Table styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    color: #0d0a0a; /* Dark pink-brown text */
+/* Navbar */
+nav {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
 }
 
-th, td {
-    padding: 10px;
-    border: 1px solid #030202; /* Light pink table borders */
-    text-align: center;
-    background-color: #000000; /* Soft pink for table cells */
-}
-
+/* Tables */
 th {
-    background-color: #121010; /* Slightly darker pink for table headers */
+    background-color: #333333;
 }
 
-/* Button styling */
+td {
+    background-color: #1e1e1e;
+}
+
+/* Buttons */
 button, .back-link, .logout-link {
-    background-color: #22181a; /* Medium pink for buttons */
-    color: #090707; /* Dark text */
-    border: 1px solid #020202; /* Light pink border */
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    text-align: center;
+    background-color: #0056b3;
+    color: #ffffff;
+    border: 1px solid #003d80;
 }
 
 button:hover, .back-link:hover, .logout-link:hover {
-    background-color: #151011; /* Slightly darker pink on hover */
-}
-
-/* Link styling */
-a, .dropdown-menu a {
-    color: #0c090a; /* Medium-dark pink links */
-    text-decoration: none;
-}
-
-a:hover, .dropdown-menu a:hover {
-    color: #060505; /* Darker pink on hover */
-}
-
-/* Dropdown menu styling */
-.menu-icon {
-    background-color: #0e0b0b; /* Light pink */
-    color: #000000; /* Dark text */
-    padding: 8px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.dropdown-menu {
-    background-color: #2a2a2a; /* Light pink dropdown background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    padding: 10px;
-}
-
-.dropdown-menu a {
-    background-color: #100c0d; /* Medium pink button boxes */
-    padding: 8px;
-    display: block;
-    border-radius: 4px;
-    text-align: center;
-}
-
-.dropdown-menu a:hover {
-    background-color: #050404; /* Darker pink on hover */
-}
-
-/* Input fields */
-input[type="text"], input[type="email"], input[type="password"], select {
-    background-color: #2f2f2f; /* Light pink input background */
-    color: #504d4d; /* Dark text */
-    border: 1px solid #434343; /* Light pink outline */
-    padding: 10px;
-    border-radius: 4px;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-/* Form label styling */
-label {
-    color: #000000; /* Dark pink for form labels */
-    font-weight: bold;
-}
-
-/* Data status message */
-#dataStatus {
-    color: #110d0d; /* Dark pink for status messages */
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* Override specific color for paragraph text */
-p {
-    color: #000000; /* Dark pink paragraph text */
-}
-/* Navigation Styles */
-nav {
-    position: fixed; /* Fixes the navbar to the top of the page */
-    top: 0;
-    left: 0;
-    width: 100%; /* Spans the entire width of the page */
-    z-index: 1000; /* Ensures it appears above other elements */
-    background-color: #3a3a3a; /* Navbar background color */
-    color: #5a5a5a; /* Text color for the navbar */
-    padding: 10px 20px; /* Padding inside the navbar */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow for a 3D effect */
+    background-color: #003d80;
 }
