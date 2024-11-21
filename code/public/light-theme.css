@@ -1,28 +1,29 @@
 /* General Styling */
 body {
-    background-color: #ffffff ; /* Light background */
-    color: #333333 ; /* Darker text */
-    font-family: Arial, sans-serif; /* Consistent font */
+    background: linear-gradient(135deg, #ffffff, #ffffff, #ffffff); /* Pink gradient background */
+    color: #494949; /* Dark pink-brown text for contrast */
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
+/* Links */
 a {
-    color: #ecf5ff ; /* Blue links */
+    color: #b1b5b9; /* Blue links for Blue Theme */
     text-decoration: none;
 }
 
 a:hover {
-    color: #b6b6b6; /* Darker blue on hover */
+    color: #949496; /* Darker blue on hover */
 }
 
-/* Container Styling */
+/* Containers */
 .container {
-    background-color: #ffffff; /* White for containers */
-    color: #333333; /* Darker text */
+    background-color: #ededed; /* Container background for Blue Theme */
+    color: #000000; /* Text color inside containers */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Subtle shadow */
     max-width: 800px;
 }
 
@@ -35,25 +36,25 @@ h1, h2 {
 table {
     width: 100%;
     border-collapse: collapse;
-    color: #959595 ; /* Dark text */
+    color: #666d6f; /* Table text color for better readability */
 }
 
 th, td {
     padding: 10px;
-    border: 1px solid #000000; /* Light border */
+    border: 1px solid #515151; /* Light border */
     text-align: center;
-    background-color: #b8b8b8 ; /* White background */
+    background-color: #d5d5d5; /* Dark background for rows */
 }
 
 th {
-    background-color: #777777 ; /* Slightly darker for headers */
+    background-color: #3a3a3a; /* Slightly darker header rows */
 }
 
 /* Buttons */
 button, .back-link, .logout-link {
-    background-color: #acacac; /* Blue button */
-    color: #272626; /* White text */
-    border: 1px solid #4d4d4d; /* Darker blue border */
+    background-color: #e3e7e9; /* Blue buttons */
+    color: #000000; /* Button text color */
+    border: 1px solid #4d4d4d; /* Button border */
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
@@ -61,14 +62,14 @@ button, .back-link, .logout-link {
 }
 
 button:hover, .back-link:hover, .logout-link:hover {
-    background-color: #a1a0a0 ; /* Darker blue on hover */
+    background-color: #c9cad9; /* Darker blue on hover */
 }
 
 /* Inputs */
 input[type="text"], input[type="email"], input[type="password"], select {
-    background-color: #969696 ; /* White input background */
-    color: #141414 ; /* Dark text */
-    border: 1px solid #6c6b6b; /* Light border */
+    background-color: #d1d1da; /* Input background for Blue Theme */
+    color: #141414; /* Input text color */
+    border: 1px solid #000000; /* Input border color */
     padding: 10px;
     border-radius: 4px;
     width: 100%;
@@ -77,43 +78,44 @@ input[type="text"], input[type="email"], input[type="password"], select {
 
 /* Dropdown Menu */
 .dropdown-menu {
-    background-color: #ffffff ; /* White dropdown */
+    background-color: #2d2d2d; /* Dark dropdown background */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 10px;
-    border: 1px solid #969696 ; /* Subtle border */
+    border: 1px solid #969696; /* Subtle border */
 }
 
 .dropdown-menu a {
-    background-color: #f2f2f2 ; /* Very light grey button boxes */
+    background-color: #f2f2f2; /* Very light grey button boxes */
     padding: 8px;
     display: block;
     border-radius: 4px;
     text-align: center;
+    color: #adaeb2;
 }
 
 .dropdown-menu a:hover {
-    background-color: #e0e0e0 ; /* Slightly darker grey on hover */
+    background-color: #222020; /* Slightly darker grey on hover */
 }
 
 /* Navbar Styling */
 nav {
-    position: fixed ; /* Fix navbar */
-    top: 0 ;
-    left: 0 ;
-    width: 100% ; /* Full width */
+    position: fixed; /* Fix navbar */
+    top: 0;
+    left: 0;
+    width: 100%; /* Full width */
     z-index: 1000; /* On top of other elements */
-    background-color: #9d9c9c; /* White navbar */
-    color: #878787; /* Dark text */
-    padding: 10px 20px ;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) ; /* Subtle shadow */
+    background-color: #3a3a3a; /* Dark navbar for Dark Theme */
+    color: #878787; /* Text color */
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .navbar a, .navbar-text {
-    color: #7b7b7b ; /* Blue links */
+    color: #7b7b7b; /* Blue links */
     font-size: 1rem;
 }
 
 .navbar a:hover {
-    color: #8caed2 ; /* Darker blue on hover */
+    color: #8caed2; /* Darker blue on hover */
 }

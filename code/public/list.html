@@ -6,9 +6,35 @@
     <title>View Lost and Found Items</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="base.css">
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css">
 
     <style>
+        /* Center table and ensure responsiveness */
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .table-container table {
+            width: 90%;
+            max-width: 1200px;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
         #searchBar {
             margin: 20px;
             padding: 10px;
@@ -25,23 +51,6 @@
             font-size: 1rem;
             border-radius: 4px;
             border: 1px solid #ccc;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-            white-space: nowrap;
-        }
-
-        th {
-            background-color: #f4f4f4;
         }
 
         .expanded-row {
@@ -85,16 +94,15 @@
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
 
         const firebaseConfig = {
-    apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
-    authDomain: "test-a03f0.firebaseapp.com",
-    databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
-    projectId: "test-a03f0",
-    storageBucket: "test-a03f0.appspot.com",
-    messagingSenderId: "781989983807",
-    appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
-    measurementId: "G-LX0R71CBRP"
-};
-
+            apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
+            authDomain: "test-a03f0.firebaseapp.com",
+            databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
+            projectId: "test-a03f0",
+            storageBucket: "test-a03f0.appspot.com",
+            messagingSenderId: "781989983807",
+            appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
+            measurementId: "G-LX0R71CBRP"
+        };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
@@ -122,9 +130,7 @@
                         alert("Successfully logged out!");
                         window.location.href = "login.html";
                     })
-                    .catch((error) => {
-                        console.error("Error logging out:", error);
-                    });
+                    .catch((error) => console.error("Error logging out:", error));
             });
 
             const lostAndFoundRef = ref(database, 'lostAndFound');
@@ -198,8 +204,6 @@
             }
         });
     </script>
-    <link rel="stylesheet" href="base.css">
-    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css">
 </head>
 <body>
     <!-- Bootstrap Navbar -->
@@ -250,23 +254,25 @@
             </select>
         </div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Description</th>
-                    <th>Found By</th>
-                    <th>Contact Info</th>
-                    <th>Room Number</th>
-                    <th>Current Location</th>
-                    <th>Last Known Location</th>
-                    <th>Timestamp</th>
-                </tr>
-            </thead>
-            <tbody id="itemsTableBody">
-                <!-- Dynamic content here -->
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Description</th>
+                        <th>Found By</th>
+                        <th>Contact Info</th>
+                        <th>Room Number</th>
+                        <th>Current Location</th>
+                        <th>Last Known Location</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTableBody">
+                    <!-- Dynamic content here -->
+                </tbody>
+            </table>
+        </div>
 
         <a href="index.html" class="back-link">Back home</a>
     </div>

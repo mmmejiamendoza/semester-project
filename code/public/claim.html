@@ -5,133 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Lost and Found Items</title>
     
+    <!-- Theme Stylesheet -->
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css"> <!-- Default theme -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        #content-container {
-            margin-top: 80px;
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+    import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
+        authDomain: "test-a03f0.firebaseapp.com",
+        databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
+        projectId: "test-a03f0",
+        storageBucket: "test-a03f0.appspot.com",
+        messagingSenderId: "781989983807",
+        appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
+        measurementId: "G-LX0R71CBRP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const database = getDatabase(app);
+
+    const themeStylesheet = document.getElementById('themeStylesheet');
+
+    // Function to load the theme
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('selectedTheme');
+        if (savedTheme) {
+            themeStylesheet.href = savedTheme;
         }
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    document.addEventListener('DOMContentLoaded', () => {
+        // Load the initial theme
+        loadTheme();
 
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f4f4f4;
-        }
-
-        .btn-claim {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .btn-claim:hover {
-            background-color: #0056b3;
-        }
-
-        .back-link {
-            margin-top: 20px;
-            display: inline-block;
-            text-decoration: none;
-            color: #007bff;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
-
-        const firebaseConfig = {
-    apiKey: "AIzaSyBErH1zQGwxuEDLk6dkUGFF2VYaXB806Uk",
-    authDomain: "test-a03f0.firebaseapp.com",
-    databaseURL: "https://test-a03f0-default-rtdb.firebaseio.com",
-    projectId: "test-a03f0",
-    storageBucket: "test-a03f0.appspot.com",
-    messagingSenderId: "781989983807",
-    appId: "1:781989983807:web:1b3cf58ba79d31f8042a8a",
-    measurementId: "G-LX0R71CBRP"
-};
-
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth();
-        const database = getDatabase(app);
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeStylesheet = document.getElementById('themeStylesheet');
-            const savedTheme = localStorage.getItem('selectedTheme');
-            if (savedTheme) {
-                themeStylesheet.href = savedTheme;
+        // Update the user greeting
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('userButton').textContent = `Hello, ${user.email}`;
+            } else {
+                window.location.href = "login.html";
             }
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    document.getElementById('userButton').textContent = `Hello, ${user.email}`;
-                } else {
-                    window.location.href = "login.html";
-                }
-            });
-
-            document.getElementById("logoutButton").addEventListener("click", (e) => {
-                e.preventDefault();
-                signOut(auth)
-                    .then(() => {
-                        alert("Successfully logged out!");
-                        window.location.href = "login.html";
-                    })
-                    .catch((error) => console.error("Error logging out:", error));
-            });
-
-            const lostAndFoundRef = ref(database, 'lostAndFound');
-            const tableBody = document.getElementById('itemsTableBody');
-            const now = new Date();
-
-            onValue(lostAndFoundRef, (snapshot) => {
-                tableBody.innerHTML = "";
-                const data = snapshot.val();
-                for (const key in data) {
-                    const item = data[key];
-                    const submittedDate = new Date(item.timestamp);
-                    const daysAgo = Math.floor((now - submittedDate) / (1000 * 60 * 60 * 24));
-
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${item.itemName || "Not provided"}</td>
-                        <td>${item.itemDescription || "Not provided"}</td>
-                        <td>${item.foundBy || "Unknown"}</td>
-                        <td>${daysAgo} days ago</td>
-                        <td><button class="btn-claim" onclick="claimItem('${key}')">Claim</button></td>
-                    `;
-                    tableBody.appendChild(row);
-                }
-            });
         });
 
-        window.claimItem = function (itemKey) {
-            if (confirm("Are you sure you want to claim this item?")) {
-                const itemRef = ref(database, `lostAndFound/${itemKey}`);
-                remove(itemRef).then(() => alert("Item successfully claimed!"))
-                    .catch((error) => console.error("Error removing item:", error));
+        // Logout functionality
+        document.getElementById("logoutButton").addEventListener("click", (e) => {
+            e.preventDefault();
+            signOut(auth)
+                .then(() => {
+                    alert("Successfully logged out!");
+                    window.location.href = "login.html";
+                })
+                .catch((error) => console.error("Error logging out:", error));
+        });
+
+        // Fetch lost and found items
+        const lostAndFoundRef = ref(database, 'lostAndFound');
+        const tableBody = document.getElementById('itemsTableBody');
+        const now = new Date();
+
+        onValue(lostAndFoundRef, (snapshot) => {
+            tableBody.innerHTML = "";
+            const data = snapshot.val();
+            for (const key in data) {
+                const item = data[key];
+                const submittedDate = new Date(item.timestamp);
+                const daysAgo = Math.floor((now - submittedDate) / (1000 * 60 * 60 * 24));
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.itemName || "Not provided"}</td>
+                    <td>${item.itemDescription || "Not provided"}</td>
+                    <td>${item.foundBy || "Unknown"}</td>
+                    <td>${daysAgo} days ago</td>
+                    <td><button class="btn-claim" onclick="claimItem('${key}')">Claim</button></td>
+                `;
+                tableBody.appendChild(row);
             }
-        };
-    </script>
+        });
+
+        // Listen for theme changes
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'selectedTheme') {
+                loadTheme();
+            }
+        });
+    });
+
+    // Claim an item
+    window.claimItem = function (itemKey) {
+        if (confirm("Are you sure you want to claim this item?")) {
+            const itemRef = ref(database, `lostAndFound/${itemKey}`);
+            remove(itemRef).then(() => alert("Item successfully claimed!"))
+                .catch((error) => console.error("Error removing item:", error));
+        }
+    };
+</script>
+
 </head>
 <body>
     <!-- Bootstrap Navbar -->
@@ -168,7 +142,7 @@
     <!-- Main Content -->
     <div id="content-container" class="container mt-5">
         <h1 class="text-center">Claim Lost and Found Items</h1>
-        <table>
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Item Name</th>
