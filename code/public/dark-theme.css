@@ -20,7 +20,7 @@ a:hover {
 /* Containers */
 .container {
     background-color: #333333; /* Container background for Blue Theme */
-    color: #bfbfbf; /* Text color inside containers */
+    color: #616161; /* Text color inside containers */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(155, 155, 155, 0.4); /* Subtle shadow */
@@ -67,9 +67,9 @@ button:hover, .back-link:hover, .logout-link:hover {
 
 /* Inputs */
 input[type="text"], input[type="email"], input[type="password"], select {
-    background-color: #616162; /* Input background for Blue Theme */
-    color: #141414; /* Input text color */
-    border: 1px solid #505050; /* Input border color */
+    background-color: #6e6e6e; /* Input background for Blue Theme */
+    color: #b5b5b5; /* Input text color */
+    border: 1px solid #4b4b4b; /* Input border color */
     padding: 10px;
     border-radius: 4px;
     width: 100%;
@@ -78,24 +78,24 @@ input[type="text"], input[type="email"], input[type="password"], select {
 
 /* Dropdown Menu */
 .dropdown-menu {
-    background-color: #2d2d2d; /* Dark dropdown background */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #727272; /* Dark dropdown background */
+    box-shadow: 0 4px 8px rgba(153, 152, 152, 0.4);
     border-radius: 8px;
     padding: 10px;
     border: 1px solid #969696; /* Subtle border */
 }
 
 .dropdown-menu a {
-    background-color: #f2f2f2; /* Very light grey button boxes */
+    background-color: #474747; /* Very light grey button boxes */
     padding: 8px;
     display: block;
     border-radius: 4px;
     text-align: center;
-    color: #243cb3;
+    color: #575859;
 }
 
 .dropdown-menu a:hover {
-    background-color: #e0e0e0; /* Slightly darker grey on hover */
+    background-color: #454547; /* Slightly darker grey on hover */
 }
 
 /* Navbar Styling */
@@ -117,5 +117,46 @@ nav {
 }
 
 .navbar a:hover {
-    color: #8caed2; /* Darker blue on hover */
+    color: #4f5052; /* Darker blue on hover */
+}
+#foundItemForm {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #272727; /* White background for form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+#foundItemForm label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #e2e0e0; /* Darker labels */
+}
+
+#foundItemForm input, #foundItemForm select, #foundItemForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #4a4949;
+    border-radius: 4px;
+    background-color: #515050; /* Light background for inputs */
+    color: #ffffff; /* Input text color */
+}
+
+#foundItemForm button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333336; /* Blue button */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#foundItemForm button:hover {
+    background-color: #1c1c1e; /* Darker blue on hover */
 }

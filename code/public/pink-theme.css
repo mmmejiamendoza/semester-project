@@ -119,3 +119,44 @@ nav {
 .navbar a:hover {
     color: #8caed2; /* Darker blue on hover */
 }
+#foundItemForm {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #ffffff; /* White background for form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+#foundItemForm label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #212121; /* Darker labels */
+}
+
+#foundItemForm input, #foundItemForm select, #foundItemForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9; /* Light background for inputs */
+    color: #333333; /* Input text color */
+}
+
+#foundItemForm button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #243cb3; /* Blue button */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#foundItemForm button:hover {
+    background-color: #0f1a8f; /* Darker blue on hover */
+}
