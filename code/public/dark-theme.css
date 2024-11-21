@@ -69,7 +69,7 @@ button:hover, .back-link:hover, .logout-link:hover {
 input[type="text"], input[type="email"], input[type="password"], select {
     background-color: #6e6e6e; /* Input background for Blue Theme */
     color: #b5b5b5; /* Input text color */
-    border: 1px solid #4b4b4b; /* Input border color */
+    border: 1px solid #ffffff; /* Input border color */
     padding: 10px;
     border-radius: 4px;
     width: 100%;
@@ -78,11 +78,11 @@ input[type="text"], input[type="email"], input[type="password"], select {
 
 /* Dropdown Menu */
 .dropdown-menu {
-    background-color: #727272; /* Dark dropdown background */
-    box-shadow: 0 4px 8px rgba(153, 152, 152, 0.4);
+    background-color: #b9b8b8; /* Dark dropdown background */
+    box-shadow: 0 4px 8px rgba(201, 201, 201, 0.4);
     border-radius: 8px;
     padding: 10px;
-    border: 1px solid #969696; /* Subtle border */
+    border: 1px solid #8f9295; /* Subtle border */
 }
 
 .dropdown-menu a {
@@ -125,7 +125,7 @@ nav {
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #272727; /* White background for form */
+    background-color: #706d6d; /* White background for form */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
@@ -140,9 +140,9 @@ nav {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #4a4949;
+    border: 1px solid #a1a1a1;
     border-radius: 4px;
-    background-color: #515050; /* Light background for inputs */
+    background-color: #878787; /* Light background for inputs */
     color: #ffffff; /* Input text color */
 }
 
@@ -150,7 +150,7 @@ nav {
     display: inline-block;
     padding: 10px 20px;
     background-color: #333336; /* Blue button */
-    color: #ffffff; /* White text */
+    color: #7a7986; /* White text */
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -159,4 +159,65 @@ nav {
 
 #foundItemForm button:hover {
     background-color: #1c1c1e; /* Darker blue on hover */
+}
+
+/* Center table and ensure responsiveness */
+.table-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.table-container table {
+width: 90%; /* Ensures responsiveness */
+max-width: 1200px; /* Prevents excessive stretching */
+border-collapse: collapse;
+text-align: center;
+background-color: #f9f9f9; /* Light background for table */
+border: 1px solid #ddd; /* Subtle border */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a shadow effect */
+border-radius: 8px; /* Rounded corners */
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #555454;
+}
+
+#searchBar {
+    margin: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#columnFilter {
+    margin: 20px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.expanded-row {
+    background-color: #6f6d6d;
+    z-index: 2;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.expanded-row td {
+    padding: 20px;
+    line-height: 1.5;
 }

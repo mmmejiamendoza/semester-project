@@ -160,3 +160,64 @@ nav {
 #foundItemForm button:hover {
     background-color: #0f1a8f; /* Darker blue on hover */
 }
+
+/* Center table and ensure responsiveness */
+.table-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.table-container table {
+width: 90%; /* Ensures responsiveness */
+max-width: 1200px; /* Prevents excessive stretching */
+border-collapse: collapse;
+text-align: center;
+background-color: #f9f9f9; /* Light background for table */
+border: 1px solid #ddd; /* Subtle border */
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a shadow effect */
+border-radius: 8px; /* Rounded corners */
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #555454;
+}
+
+#searchBar {
+    margin: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#columnFilter {
+    margin: 20px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.expanded-row {
+    background-color: #6f6d6d;
+    z-index: 2;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.expanded-row td {
+    padding: 20px;
+    line-height: 1.5;
+}
