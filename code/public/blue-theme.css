@@ -41,9 +41,10 @@ table {
 
 th, td {
     padding: 10px;
-    border: 1px solid #000000; /* Light border */
+    border: 1px solid #134e6e; /* Light border */
     text-align: center;
-    background-color: #1a1a1a; /* Dark background for rows */
+    background-color: #3a6377; /* Dark background for rows */
+    color: #000000;
 }
 
 th {
@@ -52,9 +53,9 @@ th {
 
 /* Buttons */
 button, .back-link, .logout-link {
-    background-color: #243cb3; /* Blue buttons */
+    background-color: #2492b3; /* Blue buttons */
     color: #ffffff; /* Button text color */
-    border: 1px solid #4d4d4d; /* Button border */
+    border: 1px solid #2d2d2d; /* Button border */
     padding: 10px 20px;
     border-radius: 4px;
     cursor: pointer;
@@ -62,14 +63,14 @@ button, .back-link, .logout-link {
 }
 
 button:hover, .back-link:hover, .logout-link:hover {
-    background-color: #0f1a8f; /* Darker blue on hover */
+    background-color: #23658e; /* Darker blue on hover */
 }
 
 /* Inputs */
 input[type="text"], input[type="email"], input[type="password"], select {
-    background-color: #292fe0; /* Input background for Blue Theme */
+    background-color: #ffffff; /* Input background for Blue Theme */
     color: #141414; /* Input text color */
-    border: 1px solid #1126c4; /* Input border color */
+    border: 1px solid #000000; /* Input border color */
     padding: 10px;
     border-radius: 4px;
     width: 100%;
@@ -123,10 +124,10 @@ nav {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
     border-radius: 8px;
-    background-color: #ffffff; /* White background for form */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #4376c2; /* White background for form */
+    box-shadow: 0 4px 8px rgba(0, 10, 103, 0.3); /* Subtle shadow */
 }
 
 #foundItemForm label {
@@ -142,7 +143,7 @@ nav {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #f9f9f9; /* Light background for inputs */
+    background-color: #4d677d; /* Light background for inputs */
     color: #333333; /* Input text color */
 }
 
@@ -173,7 +174,7 @@ width: 90%; /* Ensures responsiveness */
 max-width: 1200px; /* Prevents excessive stretching */
 border-collapse: collapse;
 text-align: center;
-background-color: #f9f9f9; /* Light background for table */
+background-color: #475b72; /* Light background for table */
 border: 1px solid #ddd; /* Subtle border */
 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds a shadow effect */
 border-radius: 8px; /* Rounded corners */
@@ -220,4 +221,106 @@ th {
 .expanded-row td {
     padding: 20px;
     line-height: 1.5;
+}
+body {
+    margin: 0;
+}
+
+nav {
+    background-color: #3a3a3a;
+    color: #ffffff;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: #5a5a5a;
+    border-radius: 4px;
+}
+
+.hero {
+    background: linear-gradient(135deg, #4a90e2, #3a3a3a);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.card {
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.footer {
+    background-color: #3a3a3a;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+/* General table container styling */
+#content-container .table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto; /* Center the table */
+    border-collapse: collapse;
+    background-color: #268aa8; /* Light background for table */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+}
+
+/* Table header styling */
+#content-container .table th {
+    background-color: #0ea3b1; /* Light gray for header */
+    color: #e5e3e3; /* Dark text for header */
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    border-bottom: 2px solid #302f2f;
+}
+
+/* Table row styling */
+#content-container .table td {
+    background-color: #6493bd;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd; /* Border for cells */
+    color: #393939; /* Muted text color */
+}
+
+/* Highlight rows on hover */
+#content-container .table tr:hover {
+    background-color: #8f8e8e; /* Subtle row hover effect */
+    transition: background-color 0.2s ease-in-out;
+}
+
+/* Button inside the table */
+#content-container .table .btn-claim {
+    background-color: #3ea3b7; /* Blue button */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Button hover effect */
+#content-container .table .btn-claim:hover {
+    background-color: #2b8d8d; /* Darker blue on hover */
 }
